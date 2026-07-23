@@ -1,0 +1,21 @@
+{
+  "name": "yourhomecare-web",
+  "version": "1.0.0",
+  "private": true,
+
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+
+  "scripts": {
+    "dev:web": "npm run dev --workspace=web",
+    "dev:api": "npm run start:dev --workspace=api",
+
+    "build": "npm run build --workspaces",
+
+    "lint": "npm run lint --workspaces",
+
+    "format": "npm run format --workspaces"
+  }
+}
