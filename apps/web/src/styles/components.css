@@ -1,0 +1,29 @@
+.card {
+  background: white;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius);
+
+  transition: all 0.3s ease;
+
+  box-shadow: var(--shadow-sm);
+}
+
+.card:hover {
+  transform: translateY(-6px);
+
+  box-shadow: var(--shadow-lg);
+}
+
+.section-padding {
+  padding-top: var(--section-padding);
+
+  padding-bottom: var(--section-padding);
+}
+
+.container-width {
+  max-width: 1280px;
+
+  margin-inline: auto;
+}
