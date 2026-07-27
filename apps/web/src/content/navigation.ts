@@ -4,20 +4,24 @@ export const navigation = [
     href: "/",
   },
   {
-    label: "Solutions",
-    href: "/solutions",
+    label: "About",
+    href: "/about",
   },
   {
-    label: "Partners",
-    href: "/partners",
+    label: "Services",
+    href: "/services",
+  },
+  {
+    label: "Solutions",
+    href: "/solutions",
   },
   {
     label: "Technology",
     href: "/technology",
   },
   {
-    label: "Resources",
-    href: "/resources",
+    label: "Blog",
+    href: "/blog",
   },
   {
     label: "Contact",

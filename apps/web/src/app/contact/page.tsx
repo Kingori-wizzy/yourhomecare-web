@@ -8,6 +8,7 @@ import { MapSection } from "@/components/sections/contact/map";
 import { EmergencySection } from "@/components/sections/contact/emergency";
 import { ContactCTA } from "@/components/sections/contact/cta";
 import { buildMetadata } from "@/lib/metadata";
+import { getPageContent } from "@/server/cms";
 
 export const metadata = buildMetadata({
   title: "Contact Us",
@@ -15,12 +16,14 @@ export const metadata = buildMetadata({
   path: "/contact",
 });
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const content = await getPageContent("contact");
+
   return (
     <>
-      <ContactHero />
+      <ContactHero hero={content.hero} />
 
-      <ContactInfo />
+      <ContactInfo information={content.information} />
 
       <AssessmentSection />
 
@@ -28,13 +31,17 @@ export default function ContactPage() {
 
       <ContactFormSection />
 
-      <BusinessHoursSection />
+      <BusinessHoursSection phone={content.information.phone} />
 
       <MapSection />
 
-      <EmergencySection />
+      <EmergencySection message={content.emergency} />
 
-      <ContactCTA />
+      <ContactCTA
+        title={content.cta.title}
+        description={content.cta.description}
+        phone={content.information.phone}
+      />
     </>
   );
 }

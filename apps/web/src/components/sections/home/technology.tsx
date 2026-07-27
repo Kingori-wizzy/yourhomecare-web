@@ -10,8 +10,13 @@ import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 
 import { technologyContent } from "@/content/technology";
+import type { TechnologySections } from "@/server/cms";
 
-export function Technology() {
+interface TechnologyProps {
+  content?: TechnologySections;
+}
+
+export function Technology({ content = technologyContent }: TechnologyProps) {
   return (
     <Section className="bg-slate-50">
       <Container>
@@ -19,15 +24,15 @@ export function Technology() {
 
         <div className="mx-auto max-w-3xl text-center">
           <p className="font-semibold uppercase tracking-widest text-primary">
-            {technologyContent.hero.badge}
+            {content.hero.badge}
           </p>
 
           <h2 className="mt-4 text-4xl font-bold lg:text-5xl">
-            {technologyContent.hero.title}
+            {content.hero.title}
           </h2>
 
           <p className="mt-6 text-lg leading-8 text-muted-foreground">
-            {technologyContent.hero.description}
+            {content.hero.description}
           </p>
         </div>
 
@@ -42,11 +47,11 @@ export function Technology() {
             </div>
 
             <h3 className="mt-8 text-3xl font-bold">
-              {technologyContent.introduction.title}
+              {content.introduction.title}
             </h3>
 
             <p className="mt-6 leading-8 text-muted-foreground">
-              {technologyContent.introduction.description}
+              {content.introduction.description}
             </p>
 
             <div className="mt-10">
@@ -79,7 +84,7 @@ export function Technology() {
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
-              {technologyContent.features.map((feature) => (
+              {content.features.map((feature) => (
                 <div
                   key={feature}
                   className="flex items-center gap-3 rounded-xl border border-slate-100 bg-slate-50 p-4"
@@ -102,7 +107,7 @@ export function Technology() {
 
         <div className="mt-20">
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-            {technologyContent.benefits.map((benefit) => (
+            {content.benefits.map((benefit) => (
               <div
                 key={benefit.title}
                 className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { ArrowLeft, CheckCircle2 } from "lucide-react";
 
 import { Container } from "@/components/layout/container";
@@ -7,6 +8,7 @@ import { Section } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
 
 import { getSolution } from "@/lib/solutions";
+import { getPublishedSolutions, toSolutionItems } from "@/server/cms";
 
 interface PageProps {
   params: Promise<{
@@ -14,10 +16,27 @@ interface PageProps {
   }>;
 }
 
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const solutions = toSolutionItems(await getPublishedSolutions());
+  const solution = solutions.find((item) => item.slug === slug) ?? getSolution(slug);
+
+  if (!solution) {
+    return { title: "Solution not found" };
+  }
+
+  return {
+    title: solution.title,
+    description: solution.description,
+    robots: { index: true, follow: true },
+  };
+}
+
 export default async function SolutionPage({ params }: PageProps) {
   const { slug } = await params;
 
-  const solution = getSolution(slug);
+  const solutions = toSolutionItems(await getPublishedSolutions());
+  const solution = solutions.find((item) => item.slug === slug) ?? getSolution(slug);
 
   if (!solution) {
     notFound();

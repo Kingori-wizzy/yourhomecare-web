@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-import { Header } from "@/components/layout/header";
+import { SiteChrome } from "@/components/layout/site-chrome";
 import { Footer } from "@/components/layout/footer";
 
 import { fontSans, fontMono } from "@/lib/fonts";
@@ -46,7 +46,7 @@ interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<RootLayoutProps>) {
   return (
@@ -59,11 +59,7 @@ export default function RootLayout({
         )}
       >
         <QueryProvider>
-          <Header />
-
-          <main>{children}</main>
-
-          <Footer />
+          <SiteChrome footer={<Footer />}>{children}</SiteChrome>
           <Toaster
             richColors
             position="top-right"

@@ -1,29 +1,62 @@
+import {
+  PhoneCall,
+  ClipboardCheck,
+  House,
+  HeartHandshake,
+} from "lucide-react";
+
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 
 import { processContent } from "@/content/process";
+import type { HomeSections } from "@/server/cms";
 
-export function CareProcess() {
+const icons = {
+  PhoneCall,
+  ClipboardCheck,
+  House,
+  HeartHandshake,
+};
+
+const ICON_NAMES = Object.keys(icons);
+
+const DEFAULT_CONTENT: HomeSections["process"] = {
+  badge: processContent.badge,
+  title: processContent.title,
+  description: processContent.description,
+  steps: processContent.steps.map((step, index) => ({
+    number: step.number,
+    title: step.title,
+    description: step.description,
+    icon: ICON_NAMES[index] ?? "PhoneCall",
+  })),
+};
+
+interface CareProcessProps {
+  content?: HomeSections["process"];
+}
+
+export function CareProcess({ content = DEFAULT_CONTENT }: CareProcessProps) {
   return (
     <Section className="bg-white">
       <Container>
         <div className="mx-auto max-w-3xl text-center">
           <p className="font-semibold uppercase tracking-widest text-primary">
-            {processContent.badge}
+            {content.badge}
           </p>
 
           <h2 className="mt-4 text-4xl font-bold lg:text-5xl">
-            {processContent.title}
+            {content.title}
           </h2>
 
           <p className="mt-6 text-lg text-muted-foreground">
-            {processContent.description}
+            {content.description}
           </p>
         </div>
 
         <div className="mt-20 grid gap-8 md:grid-cols-2 xl:grid-cols-4">
-          {processContent.steps.map((step) => {
-            const Icon = step.icon;
+          {content.steps.map((step) => {
+            const Icon = icons[step.icon as keyof typeof icons] ?? PhoneCall;
 
             return (
               <div

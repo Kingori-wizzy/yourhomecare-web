@@ -4,27 +4,33 @@ import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 
 import { testimonialsContent } from "@/content/testimonials";
+import type { TestimonialItem, TestimonialsSections } from "@/server/cms";
 
-export function Testimonials() {
+interface TestimonialsProps {
+  heading?: TestimonialsSections;
+  testimonials?: TestimonialItem[];
+}
+
+export function Testimonials({ heading = testimonialsContent, testimonials = testimonialsContent.testimonials }: TestimonialsProps) {
   return (
     <Section className="bg-slate-50">
       <Container>
         <div className="mx-auto max-w-3xl text-center">
           <p className="font-semibold uppercase tracking-widest text-primary">
-            {testimonialsContent.badge}
+            {heading.badge}
           </p>
 
           <h2 className="mt-4 text-4xl font-bold lg:text-5xl">
-            {testimonialsContent.title}
+            {heading.title}
           </h2>
 
           <p className="mt-6 text-lg text-muted-foreground">
-            {testimonialsContent.description}
+            {heading.description}
           </p>
         </div>
 
         <div className="mt-16 grid gap-8 lg:grid-cols-3">
-          {testimonialsContent.testimonials.map((testimonial) => (
+          {testimonials.map((testimonial) => (
             <article
               key={testimonial.name}
               className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"

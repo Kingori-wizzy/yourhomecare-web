@@ -6,8 +6,13 @@ import { Section } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
 
 import { technologyContent } from "@/content/technology";
+import type { PageHero } from "@/server/cms";
 
-export function TechnologyHero() {
+interface TechnologyHeroProps {
+  hero?: PageHero;
+}
+
+export function TechnologyHero({ hero = technologyContent.hero }: TechnologyHeroProps) {
   return (
     <Section className="bg-gradient-to-br from-slate-50 via-white to-primary/5">
       <Container>
@@ -20,16 +25,16 @@ export function TechnologyHero() {
             <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-primary">
               <ShieldCheck size={18} />
               <span className="text-sm font-semibold">
-                {technologyContent.hero.badge}
+                {hero.badge}
               </span>
             </div>
 
             <h1 className="mt-8 text-5xl font-bold leading-tight lg:text-6xl">
-              {technologyContent.hero.title}
+              {hero.title}
             </h1>
 
             <p className="mt-8 text-xl leading-9 text-slate-600">
-              {technologyContent.hero.description}
+              {hero.description}
             </p>
 
             <div className="mt-10 flex flex-wrap gap-4">

@@ -6,6 +6,7 @@ import { ImpactSection } from "@/components/sections/about/impact";
 import { LeadershipSection } from "@/components/sections/about/leadership";
 import { CallToAction } from "@/components/sections/home/cta";
 import { buildMetadata } from "@/lib/metadata";
+import { getPageContent } from "@/server/cms";
 
 export const metadata = buildMetadata({
   title: "About Us",
@@ -13,14 +14,16 @@ export const metadata = buildMetadata({
   path: "/about",
 });
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const content = await getPageContent("about");
+
   return (
     <>
-      <AboutHero />
-      <CompanyStory />
-      <MissionSection />
+      <AboutHero hero={content.hero} />
+      <CompanyStory story={content.story} />
+      <MissionSection mission={content.mission} vision={content.vision} values={content.values} />
       <ApproachSection />
-      <ImpactSection />
+      <ImpactSection impact={content.impact} />
       <LeadershipSection />
       <CallToAction />
     </>

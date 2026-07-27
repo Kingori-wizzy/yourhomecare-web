@@ -15,6 +15,7 @@ import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 
 import { servicesContent } from "@/content/services";
+import type { PageHero, ServiceItem } from "@/server/cms";
 
 const icons = {
   HeartPulse,
@@ -27,7 +28,12 @@ const icons = {
   Network,
 };
 
-export function Services() {
+interface ServicesProps {
+  heading?: PageHero;
+  services?: ServiceItem[];
+}
+
+export function Services({ heading = servicesContent.hero, services = servicesContent.services }: ServicesProps) {
   return (
     <Section className="bg-slate-50">
       <Container>
@@ -35,22 +41,22 @@ export function Services() {
 
         <div className="mx-auto max-w-3xl text-center">
           <p className="font-semibold uppercase tracking-widest text-primary">
-            {servicesContent.hero.badge}
+            {heading.badge}
           </p>
 
           <h2 className="mt-4 text-4xl font-bold lg:text-5xl">
-            {servicesContent.hero.title}
+            {heading.title}
           </h2>
 
           <p className="mt-6 text-lg leading-8 text-muted-foreground">
-            {servicesContent.hero.description}
+            {heading.description}
           </p>
         </div>
 
         {/* Services Grid */}
 
         <div className="mt-16 grid gap-8 md:grid-cols-2 xl:grid-cols-4">
-          {servicesContent.services.map((service) => {
+          {services.map((service) => {
             const Icon =
               icons[service.icon as keyof typeof icons] ?? HeartPulse;
 

@@ -5,8 +5,14 @@ import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 
 import { solutionsContent } from "@/content/solutions";
+import type { PageHero, SolutionItem } from "@/server/cms";
 
-export function Solutions() {
+interface SolutionsProps {
+  heading?: PageHero;
+  solutions?: SolutionItem[];
+}
+
+export function Solutions({ heading = solutionsContent.hero, solutions = solutionsContent.solutions }: SolutionsProps) {
   return (
     <Section className="bg-white">
       <Container>
@@ -14,22 +20,22 @@ export function Solutions() {
 
         <div className="mx-auto max-w-3xl text-center">
           <p className="font-semibold uppercase tracking-widest text-primary">
-            {solutionsContent.hero.badge}
+            {heading.badge}
           </p>
 
           <h2 className="mt-4 text-4xl font-bold lg:text-5xl">
-            {solutionsContent.hero.title}
+            {heading.title}
           </h2>
 
           <p className="mt-6 text-lg leading-8 text-muted-foreground">
-            {solutionsContent.hero.description}
+            {heading.description}
           </p>
         </div>
 
         {/* Solutions Grid */}
 
         <div className="mt-16 grid gap-8 md:grid-cols-2 xl:grid-cols-3">
-          {solutionsContent.solutions.map((solution) => (
+          {solutions.map((solution) => (
             <Link
               key={solution.slug}
               href={`/solutions/${solution.slug}`}

@@ -8,10 +8,13 @@ import { HeroImage } from "./hero-image";
 import { TrustPill } from "./trust-pill";
 
 import { homeContent } from "@/content/home";
+import type { HomeSections } from "@/server/cms";
 
-export function Hero() {
-  const { hero } = homeContent;
+interface HeroProps {
+  hero?: HomeSections["hero"];
+}
 
+export function Hero({ hero = homeContent.hero }: HeroProps) {
   return (
     <Section className="overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-100">
       <Container>

@@ -24,7 +24,17 @@ const icons = [
   Target,
 ];
 
-export function MissionSection() {
+interface MissionSectionProps {
+  mission?: string;
+  vision?: string;
+  values?: string[];
+}
+
+export function MissionSection({
+  mission = aboutContent.mission,
+  vision = aboutContent.vision,
+  values = aboutContent.values,
+}: MissionSectionProps) {
   return (
     <Section className="bg-slate-50">
       <Container>
@@ -51,7 +61,7 @@ export function MissionSection() {
             </h3>
 
             <p className="mt-4 leading-8 text-muted-foreground">
-              {aboutContent.mission}
+              {mission}
             </p>
 
           </div>
@@ -65,7 +75,7 @@ export function MissionSection() {
             </h3>
 
             <p className="mt-4 leading-8 text-muted-foreground">
-              {aboutContent.vision}
+              {vision}
             </p>
 
           </div>
@@ -79,7 +89,7 @@ export function MissionSection() {
             </h3>
 
             <div className="mt-6 space-y-4">
-              {aboutContent.values.map((value, index) => {
+              {values.map((value, index) => {
                 const Icon = icons[index] ?? Heart;
 
                 return (

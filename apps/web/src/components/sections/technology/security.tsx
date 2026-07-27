@@ -11,7 +11,11 @@ import { Section } from "@/components/layout/section";
 
 import { technologyContent } from "@/content/technology";
 
-export function TechnologySecurity() {
+interface TechnologySecurityProps {
+  security?: string[];
+}
+
+export function TechnologySecurity({ security = technologyContent.security }: TechnologySecurityProps) {
   return (
     <Section className="bg-slate-50">
       <Container>
@@ -33,7 +37,7 @@ export function TechnologySecurity() {
 
         <div className="mt-16 grid items-center gap-12 lg:grid-cols-2">
           <div className="space-y-6">
-            {technologyContent.security.map((item) => (
+            {security.map((item) => (
               <div
                 key={item}
                 className="flex items-center gap-4 rounded-2xl border bg-white p-5 shadow-sm"

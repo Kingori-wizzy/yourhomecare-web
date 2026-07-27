@@ -3,28 +3,36 @@ import { CalendarDays } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 
-import { blogContent } from "@/content/blog";
+import Link from "next/link";
 
-export function LatestArticles() {
+import { blogContent } from "@/content/blog";
+import type { BlogPostItem, PageHero } from "@/server/cms";
+
+interface LatestArticlesProps {
+  heading?: PageHero;
+  posts?: BlogPostItem[];
+}
+
+export function LatestArticles({ heading = blogContent.hero, posts = blogContent.posts.map((post) => ({ ...post, slug: "" })) }: LatestArticlesProps) {
   return (
     <Section className="bg-white">
       <Container>
         <div className="mx-auto max-w-3xl text-center">
           <p className="font-semibold uppercase tracking-widest text-primary">
-            {blogContent.hero.badge}
+            {heading.badge}
           </p>
 
           <h2 className="mt-4 text-4xl font-bold">
-            {blogContent.hero.title}
+            {heading.title}
           </h2>
 
           <p className="mt-6 text-lg text-muted-foreground">
-            {blogContent.hero.description}
+            {heading.description}
           </p>
         </div>
 
         <div className="mt-16 grid gap-8 lg:grid-cols-3">
-          {blogContent.posts.map((article) => (
+          {posts.slice(0, 3).map((article) => (
             <article
               key={article.title}
               className="rounded-3xl border bg-slate-50 p-8 transition hover:shadow-lg"
@@ -34,7 +42,13 @@ export function LatestArticles() {
               </span>
 
               <h3 className="mt-6 text-2xl font-semibold">
-                {article.title}
+                {article.slug ? (
+                  <Link href={`/blog/${article.slug}`} className="hover:text-primary">
+                    {article.title}
+                  </Link>
+                ) : (
+                  article.title
+                )}
               </h3>
 
               <p className="mt-4 text-sm leading-7 text-muted-foreground">{article.excerpt}</p>

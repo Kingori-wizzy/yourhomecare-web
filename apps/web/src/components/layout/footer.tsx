@@ -13,9 +13,8 @@ import { FaXTwitter } from "react-icons/fa6";
 
 import { Container } from "./container";
 
-import { company } from "@/content/company";
 import { navigation } from "@/content/navigation";
-import { socials } from "@/content/socials";
+import { getPublishedServices, getSiteSettings } from "@/server/cms";
 
 const icons = {
   facebook: FaFacebookF,
@@ -26,7 +25,11 @@ const icons = {
   twitter: FaXTwitter,
 };
 
-export function Footer() {
+export async function Footer() {
+  const [settings, services] = await Promise.all([getSiteSettings(), getPublishedServices()]);
+  const year = new Date().getFullYear();
+  const footerServices = services.slice(0, 6);
+
   return (
     <footer className="bg-slate-950 text-slate-300">
       <Container className="py-20">
@@ -42,8 +45,8 @@ export function Footer() {
               className="flex items-center gap-4"
             >
               <Image
-                src="/branding/logo.png"
-                alt="YourHomeCare"
+                src={settings.branding.logoUrl}
+                alt={settings.branding.name}
                 width={60}
                 height={60}
                 priority
@@ -52,11 +55,11 @@ export function Footer() {
               <div>
 
                 <h3 className="text-2xl font-bold text-white">
-                  {company.name}
+                  {settings.branding.name}
                 </h3>
 
                 <p className="mt-1 text-sm text-slate-400">
-                  {company.tagline}
+                  {settings.branding.tagline}
                 </p>
 
               </div>
@@ -106,17 +109,15 @@ export function Footer() {
 
             <div className="space-y-3 text-slate-400">
 
-              <p>Home Nursing</p>
-
-              <p>Palliative Care</p>
-
-              <p>Elderly Care</p>
-
-              <p>Caregiver Services</p>
-
-              <p>Healthcare Staffing</p>
-
-              <p>Rehabilitation Support</p>
+              {footerServices.map((service) => (
+                <Link
+                  key={service.id}
+                  href="/services"
+                  className="block transition duration-300 hover:text-primary"
+                >
+                  {service.name}
+                </Link>
+              ))}
 
             </div>
 
@@ -132,19 +133,21 @@ export function Footer() {
 
             <div className="space-y-3 text-slate-400">
 
-              <p>{company.phone}</p>
+              <p>{settings.contact.phone}</p>
 
-              <p>{company.email}</p>
+              <p>{settings.contact.email}</p>
 
-              <p>{company.address}</p>
+              <p>{settings.contact.address}</p>
 
             </div>
 
             <div className="mt-8 flex flex-wrap gap-3">
 
-              {socials.map((social) => {
+              {settings.socials.map((social) => {
                 const Icon =
                   icons[social.icon as keyof typeof icons];
+
+                if (!Icon) return null;
 
                 return (
                   <Link
@@ -186,14 +189,11 @@ export function Footer() {
           <div className="flex flex-col items-center justify-between gap-4 text-center text-sm text-slate-500 lg:flex-row">
 
             <p>
-              {company.copyright}
+              &copy; {year} {settings.branding.name}. All rights reserved.
             </p>
 
             <p>
-              Powered by{" "}
-              <span className="font-semibold text-primary">
-                TaskEase
-              </span>
+              Healthcare Beyond Hospital Walls
             </p>
 
           </div>

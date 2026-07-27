@@ -9,6 +9,7 @@ import { Section } from "@/components/layout/section";
 import { Container } from "@/components/layout/container";
 
 import { technologyContent } from "@/content/technology";
+import type { TechnologySections } from "@/server/cms";
 
 const icons = [
   UserRound,
@@ -17,7 +18,11 @@ const icons = [
   Shield,
 ];
 
-export function TechnologyBenefits() {
+interface TechnologyBenefitsProps {
+  benefits?: TechnologySections["benefits"];
+}
+
+export function TechnologyBenefits({ benefits = technologyContent.benefits }: TechnologyBenefitsProps) {
   return (
     <Section className="bg-white">
       <Container>
@@ -37,7 +42,7 @@ export function TechnologyBenefits() {
         </div>
 
         <div className="mt-16 grid gap-8 md:grid-cols-2">
-          {technologyContent.benefits.map((benefit, index) => {
+          {benefits.map((benefit, index) => {
             const Icon = icons[index % icons.length];
 
             return (

@@ -14,6 +14,7 @@ import { Section } from "@/components/layout/section";
 
 import { ServiceDetailCard } from "@/components/cards/service-detail-card";
 import { servicesContent } from "@/content/services";
+import type { ServiceItem } from "@/server/cms";
 
 const icons = {
   HeartPulse,
@@ -26,12 +27,16 @@ const icons = {
   Network,
 };
 
-export function ServicesGrid() {
+interface ServicesGridProps {
+  services?: ServiceItem[];
+}
+
+export function ServicesGrid({ services = servicesContent.services }: ServicesGridProps) {
   return (
     <Section>
       <Container>
         <div className="grid gap-10 lg:grid-cols-2">
-          {servicesContent.services.map((service) => {
+          {services.map((service) => {
             const Icon =
               icons[service.icon as keyof typeof icons] ?? HeartPulse;
 

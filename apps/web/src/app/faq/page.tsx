@@ -4,8 +4,8 @@ import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { faqContent } from "@/content/faq";
 import { buildMetadata } from "@/lib/metadata";
+import { getPageContent, getPublishedFaqs, toFaqItems } from "@/server/cms";
 
 export const metadata = buildMetadata({
   title: "FAQ",
@@ -13,15 +13,18 @@ export const metadata = buildMetadata({
   path: "/faq",
 });
 
-export default function FAQPage() {
+export default async function FAQPage() {
+  const [content, faqs] = await Promise.all([getPageContent("faq"), getPublishedFaqs()]);
+  const items = toFaqItems(faqs);
+
   return (
     <>
       <Section className="bg-slate-50">
         <Container>
           <div className="mx-auto max-w-3xl text-center">
-            <p className="font-semibold uppercase tracking-[0.2em] text-primary">{faqContent.hero.badge}</p>
-            <h1 className="mt-4 text-4xl font-bold lg:text-5xl">{faqContent.hero.title}</h1>
-            <p className="mt-6 text-lg leading-8 text-muted-foreground">{faqContent.hero.description}</p>
+            <p className="font-semibold uppercase tracking-[0.2em] text-primary">{content.hero.badge}</p>
+            <h1 className="mt-4 text-4xl font-bold lg:text-5xl">{content.hero.title}</h1>
+            <p className="mt-6 text-lg leading-8 text-muted-foreground">{content.hero.description}</p>
           </div>
         </Container>
       </Section>
@@ -30,7 +33,7 @@ export default function FAQPage() {
         <Container>
           <div className="mx-auto max-w-4xl rounded-3xl border bg-white p-6 shadow-sm lg:p-10">
             <Accordion type="single" collapsible className="space-y-4">
-              {faqContent.items.map((item) => (
+              {items.map((item) => (
                 <AccordionItem key={item.question} value={item.question} className="rounded-2xl border px-4 py-2">
                   <AccordionTrigger className="text-left text-lg font-semibold text-slate-900">
                     {item.question}

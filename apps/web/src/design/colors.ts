@@ -1,19 +1,23 @@
 export const colors = {
-  primary: "#0A7C86",
+  primary: "#0F6CBD",
 
-  primaryLight: "#D7F3F5",
+  primaryLight: "#EAF6FF",
 
-  secondary: "#00A99D",
+  secondary: "#14B87A",
 
-  accent: "#5BC0BE",
+  accent: "#EAF6FF",
 
   white: "#FFFFFF",
 
-  background: "#F8FAFC",
+  background: "#F8FBFD",
 
-  foreground: "#1F2937",
+  surface: "#FFFFFF",
 
-  muted: "#6B7280",
+  foreground: "#0F172A",
+
+  text: "#0F172A",
+
+  muted: "#F2F7FA",
 
   border: "#E5E7EB",
 

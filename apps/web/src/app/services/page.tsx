@@ -3,6 +3,7 @@ import { ServicesGrid } from "@/components/sections/services/services-grid";
 import { WhyServices } from "@/components/sections/services/why-services";
 import { CallToAction } from "@/components/sections/home/cta";
 import { buildMetadata } from "@/lib/metadata";
+import { getPageContent, getPublishedServices, toServiceItems } from "@/server/cms";
 
 export const metadata = buildMetadata({
   title: "Services",
@@ -10,11 +11,13 @@ export const metadata = buildMetadata({
   path: "/services",
 });
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const [content, services] = await Promise.all([getPageContent("services"), getPublishedServices()]);
+
   return (
     <>
-      <ServicesHero />
-      <ServicesGrid />
+      <ServicesHero hero={content.hero} />
+      <ServicesGrid services={toServiceItems(services)} />
       <WhyServices />
       <CallToAction />
     </>

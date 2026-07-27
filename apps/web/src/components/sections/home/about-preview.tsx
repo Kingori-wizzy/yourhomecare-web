@@ -6,8 +6,20 @@ import { Section } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
 
 import { aboutContent } from "@/content/about";
+import type { HomeSections } from "@/server/cms";
 
-export function AboutPreview() {
+const DEFAULT_CONTENT: HomeSections["aboutPreview"] = {
+  badge: aboutContent.hero.badge,
+  title: aboutContent.hero.title,
+  paragraphs: aboutContent.story.paragraphs.slice(0, 2),
+  values: aboutContent.values,
+};
+
+interface AboutPreviewProps {
+  content?: HomeSections["aboutPreview"];
+}
+
+export function AboutPreview({ content = DEFAULT_CONTENT }: AboutPreviewProps) {
   return (
     <Section className="bg-white">
       <Container>
@@ -18,23 +30,23 @@ export function AboutPreview() {
           <div>
 
             <p className="font-semibold uppercase tracking-widest text-primary">
-              {aboutContent.hero.badge}
+              {content.badge}
             </p>
 
             <h2 className="mt-4 text-4xl font-bold leading-tight lg:text-5xl">
-              {aboutContent.hero.title}
+              {content.title}
             </h2>
 
             <p className="mt-8 text-lg leading-8 text-muted-foreground">
-              {aboutContent.story.paragraphs[0]}
+              {content.paragraphs[0]}
             </p>
 
             <p className="mt-6 text-lg leading-8 text-muted-foreground">
-              {aboutContent.story.paragraphs[1]}
+              {content.paragraphs[1]}
             </p>
 
             <div className="mt-10 grid gap-4 sm:grid-cols-2">
-              {aboutContent.values.map((value) => (
+              {content.values.map((value) => (
                 <div
                   key={value}
                   className="flex items-center gap-3"

@@ -9,6 +9,7 @@ import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 
 import { technologyContent } from "@/content/technology";
+import type { TechnologySections } from "@/server/cms";
 
 const highlights = [
   {
@@ -37,7 +38,11 @@ const highlights = [
   },
 ];
 
-export function TechnologyOverview() {
+interface TechnologyOverviewProps {
+  introduction?: TechnologySections["introduction"];
+}
+
+export function TechnologyOverview({ introduction = technologyContent.introduction }: TechnologyOverviewProps) {
   return (
     <Section className="bg-white">
       <Container>
@@ -49,11 +54,11 @@ export function TechnologyOverview() {
           </p>
 
           <h2 className="mt-4 text-4xl font-bold lg:text-5xl">
-            {technologyContent.introduction.title}
+            {introduction.title}
           </h2>
 
           <p className="mt-6 text-lg leading-8 text-muted-foreground">
-            {technologyContent.introduction.description}
+            {introduction.description}
           </p>
 
         </div>

@@ -11,28 +11,66 @@ import { LatestArticles } from "@/components/sections/home/blog";
 import { CallToAction } from "@/components/sections/home/cta";
 import { NewsletterSection } from "@/components/sections/home/newsletter";
 
-export default function HomePage() {
+import {
+  getPageContent,
+  getPublishedBlogPosts,
+  getPublishedPartners,
+  getPublishedServices,
+  getPublishedSolutions,
+  getPublishedTestimonials,
+  toBlogPostItems,
+  toPartnerCategories,
+  toServiceItems,
+  toSolutionItems,
+  toTestimonialItems,
+} from "@/server/cms";
+
+export default async function HomePage() {
+  const [
+    content,
+    partnersPage,
+    servicesPage,
+    solutionsPage,
+    technologyPage,
+    services,
+    solutions,
+    testimonials,
+    partners,
+    blogPosts,
+  ] = await Promise.all([
+    getPageContent("home"),
+    getPageContent("partners"),
+    getPageContent("services"),
+    getPageContent("solutions"),
+    getPageContent("technology"),
+    getPublishedServices(),
+    getPublishedSolutions(),
+    getPublishedTestimonials(),
+    getPublishedPartners(),
+    getPublishedBlogPosts(),
+  ]);
+
   return (
     <>
-      <Hero />
+      <Hero hero={content.hero} />
 
-      <Partners />
+      <Partners hero={partnersPage.hero} categories={toPartnerCategories(partners)} />
 
-      <AboutPreview />
+      <AboutPreview content={content.aboutPreview} />
 
-      <Services />
+      <Services heading={servicesPage.hero} services={toServiceItems(services)} />
 
-      <Solutions />
+      <Solutions heading={solutionsPage.hero} solutions={toSolutionItems(solutions)} />
 
-      <Technology />
+      <Technology content={technologyPage} />
 
-      <WhyChooseUs />
+      <WhyChooseUs content={content.whyUs} />
 
-      <CareProcess />
+      <CareProcess content={content.process} />
 
-      <Testimonials />
+      <Testimonials heading={content.testimonialsIntro} testimonials={toTestimonialItems(testimonials)} />
 
-      <LatestArticles />
+      <LatestArticles heading={content.blogIntro} posts={toBlogPostItems(blogPosts)} />
 
       <NewsletterSection />
 

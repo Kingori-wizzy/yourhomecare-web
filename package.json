@@ -10,11 +10,12 @@
 
   "scripts": {
     "dev": "npm run dev --workspace=web",
-
-    "build": "npm run build --workspaces",
-
-    "lint": "npm run lint --workspaces",
-
-    "format": "npm run format --workspaces"
+    "build": "npm run build --workspace=web",
+    "start": "npm run start --workspace=web",
+    "lint": "npm run lint --workspace=web",
+    "type-check": "tsc --noEmit -p apps/web/tsconfig.json",
+    "db:generate": "drizzle-kit generate --config=drizzle.config.ts",
+    "db:push": "drizzle-kit push --config=drizzle.config.ts",
+    "format": "npm run format --workspaces --if-present"
   }
 }

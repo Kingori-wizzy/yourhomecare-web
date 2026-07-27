@@ -4,8 +4,14 @@ import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 
 import { partnersContent } from "@/content/partners";
+import type { PageHero, PartnerCategoryItem } from "@/server/cms";
 
-export function Partners() {
+interface PartnersProps {
+  hero?: PageHero;
+  categories?: PartnerCategoryItem[];
+}
+
+export function Partners({ hero = partnersContent.hero, categories = partnersContent.categories }: PartnersProps) {
   return (
     <Section className="bg-white">
       <Container>
@@ -13,20 +19,20 @@ export function Partners() {
         <div className="mx-auto max-w-3xl text-center">
 
           <p className="font-semibold uppercase tracking-widest text-primary">
-            {partnersContent.hero.badge}
+            {hero.badge}
           </p>
 
           <h2 className="mt-4 text-4xl font-bold lg:text-5xl">
-            {partnersContent.hero.title}
+            {hero.title}
           </h2>
 
           <p className="mt-6 text-lg leading-8 text-muted-foreground">
-            {partnersContent.hero.description}
+            {hero.description}
           </p>
 
         </div>
 
-        {partnersContent.categories.map((category) => (
+        {categories.map((category) => (
 
           <div
             key={category.title}

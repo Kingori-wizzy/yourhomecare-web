@@ -18,6 +18,10 @@ import { Container } from "@/components/layout/container";
 
 import { technologyContent } from "@/content/technology";
 
+interface TechnologyFeaturesProps {
+  features?: string[];
+}
+
 const icons = [
   ClipboardCheck,
   FileText,
@@ -33,7 +37,7 @@ const icons = [
   ShieldCheck,
 ];
 
-export function TechnologyFeatures() {
+export function TechnologyFeatures({ features = technologyContent.features }: TechnologyFeaturesProps) {
   return (
     <Section className="bg-slate-50">
       <Container>
@@ -53,7 +57,7 @@ export function TechnologyFeatures() {
         </div>
 
         <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {technologyContent.features.map((feature, index) => {
+          {features.map((feature, index) => {
             const Icon = icons[index % icons.length];
 
             return (
