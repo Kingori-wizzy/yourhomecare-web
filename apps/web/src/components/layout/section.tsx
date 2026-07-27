@@ -1,21 +1,20 @@
+import { HTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
-import { ReactNode } from "react";
 
-interface SectionProps {
-  children: ReactNode;
-  className?: string;
+interface SectionProps
+  extends HTMLAttributes<HTMLElement> {
+  children: React.ReactNode;
 }
 
 export function Section({
   children,
   className,
+  ...props
 }: SectionProps) {
   return (
     <section
-      className={cn(
-        "py-16 md:py-24",
-        className
-      )}
+      className={cn("py-20 lg:py-28", className)}
+      {...props}
     >
       {children}
     </section>

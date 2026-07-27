@@ -8,6 +8,9 @@ import { fontSans, fontMono } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/config/site";
 
+import { Toaster } from "sonner";
+import { QueryProvider } from "@/providers/query-provider";
+
 export const metadata: Metadata = {
   title: {
     default: siteConfig.name,
@@ -55,11 +58,17 @@ export default function RootLayout({
           "min-h-screen bg-background font-sans antialiased"
         )}
       >
-        <Header />
+        <QueryProvider>
+          <Header />
 
-        <main>{children}</main>
+          <main>{children}</main>
 
-        <Footer />
+          <Footer />
+          <Toaster
+            richColors
+            position="top-right"
+          />
+        </QueryProvider>
       </body>
     </html>
   );

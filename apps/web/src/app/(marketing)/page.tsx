@@ -9,6 +9,7 @@ import { CareProcess } from "@/components/sections/home/process";
 import { Testimonials } from "@/components/sections/home/testimonials";
 import { LatestArticles } from "@/components/sections/home/blog";
 import { CallToAction } from "@/components/sections/home/cta";
+import { NewsletterSection } from "@/components/sections/home/newsletter";
 
 export default function HomePage() {
   return (
@@ -32,6 +33,8 @@ export default function HomePage() {
       <Testimonials />
 
       <LatestArticles />
+
+      <NewsletterSection />
 
       <CallToAction />
     </>

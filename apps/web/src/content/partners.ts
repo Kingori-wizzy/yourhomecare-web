@@ -1,14 +1,14 @@
 export const partnersContent = {
-  badge: "Trusted Partnerships",
-
-  title: "Working Together to Deliver Better Healthcare",
-
-  description:
-    "We collaborate with leading insurers, healthcare organizations and technology partners to provide coordinated, high-quality healthcare beyond hospital walls.",
+  hero: {
+    badge: "Trusted Partnerships",
+    title: "Working Together to Deliver Better Healthcare",
+    description:
+      "YourHomeCare collaborates with leading hospitals, medical insurers, healthcare organisations and technology partners to deliver coordinated, high-quality healthcare beyond hospital walls.",
+  },
 
   categories: [
     {
-      title: "Insurance Partners",
+      title: "Medical Insurance Partners",
       partners: [
         {
           name: "AAR Insurance",
@@ -23,27 +23,27 @@ export const partnersContent = {
           logo: "/images/partners/apa.png",
         },
         {
+          name: "CarePay",
+          logo: "/images/partners/carepay.png",
+        },
+        {
+          name: "M-TIBA",
+          logo: "/images/partners/mtiba.png",
+        },
+        {
           name: "ZEP-RE",
           logo: "/images/partners/zep-re.png",
         },
         {
-          name: "Association of Kenya Insurers (AKI)",
+          name: "AKI",
           logo: "/images/partners/aki.png",
         },
       ],
     },
 
     {
-      title: "Healthcare Partners",
+      title: "Healthcare Organisations",
       partners: [
-        {
-          name: "CarePay",
-          logo: "/images/partners/carepay.png",
-        },
-        {
-          name: "M-TIBA",
-          logo: "/images/partners/m-tiba.png",
-        },
         {
           name: "KEHPCA",
           logo: "/images/partners/kehpca.png",

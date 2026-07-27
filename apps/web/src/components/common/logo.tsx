@@ -1,40 +1,28 @@
 import Image from "next/image";
 import Link from "next/link";
 
-interface LogoProps {
-  showTagline?: boolean;
-  className?: string;
-}
-
-export function Logo({
-  showTagline = true,
-  className = "",
-}: LogoProps) {
+export function Logo() {
   return (
     <Link
       href="/"
-      className={`flex items-center gap-4 ${className}`}
+      className="flex items-center gap-4"
     >
-      <div className="relative h-14 w-14 overflow-hidden rounded-xl">
-        <Image
-          src="/branding/logo.png"
-          alt="YourHomeCare"
-          fill
-          className="object-contain"
-          priority
-        />
-      </div>
+      <Image
+        src="/branding/logo.png"
+        alt="YourHomeCare"
+        width={58}
+        height={58}
+        priority
+      />
 
-      <div className="hidden sm:block">
-        <h2 className="text-xl font-bold tracking-tight">
+      <div>
+        <h1 className="text-3xl font-bold leading-none text-slate-900">
           YourHomeCare
-        </h2>
+        </h1>
 
-        {showTagline && (
-          <p className="text-sm text-muted-foreground">
-            Compassion • Dignity • Independence
-          </p>
-        )}
+        <p className="mt-1 text-sm text-slate-500">
+          Healthcare Beyond Hospital Walls
+        </p>
       </div>
     </Link>
   );

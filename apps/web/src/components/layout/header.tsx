@@ -3,49 +3,46 @@
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { Logo } from "@/components/common/logo";
 import { Container } from "./container";
 
+import { Logo } from "@/components/common/logo";
 import { Navbar } from "./navbar";
 import { MobileMenu } from "./mobile-menu";
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-md shadow-sm transition-all duration-300">
-      <Container className="flex h-20 items-center justify-between">
+    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-md">
+      <Container className="flex h-[72px] items-center justify-between">
 
-        {/* Logo */}
         <Logo />
 
-        {/* Desktop Navigation */}
         <Navbar />
 
-        {/* Desktop CTA + Mobile Menu */}
         <div className="flex items-center gap-4">
-  
-          <Link href="/appointments">
+
+          <Link href="/contact#assessment">
             <Button
               className="
                 hidden
-                lg:inline-flex
-                h-11
                 rounded-xl
                 bg-black
-                px-7
+                px-6
+                py-6
+                text-sm
                 font-semibold
                 text-white
-                shadow-md
+                shadow-lg
                 transition-all
                 duration-300
                 hover:bg-slate-800
-                hover:shadow-lg
+                hover:shadow-xl
+                lg:inline-flex
               "
             >
-              Book Appointment
+              Book Assessment
             </Button>
           </Link>
 
-          {/* Mobile Menu */}
           <MobileMenu />
 
         </div>
