@@ -35,6 +35,19 @@ export async function POST(request: Request) {
       name: data.name ? sanitizeInput(data.name) : undefined,
     };
 
+    const existingSubscribers = await newsletterService.list();
+    const alreadySubscribed = existingSubscribers.some(
+      (subscriber) => subscriber.email.toLowerCase() === payload.email.toLowerCase()
+    );
+
+    if (alreadySubscribed) {
+      return NextResponse.json({
+        success: true,
+        message: "You are already subscribed.",
+        data: payload,
+      });
+    }
+
     await newsletterService.create({
       email: payload.email,
       name: payload.name,

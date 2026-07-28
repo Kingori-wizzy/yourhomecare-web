@@ -16,7 +16,7 @@ interface HeroProps {
 
 export function Hero({ hero = homeContent.hero }: HeroProps) {
   return (
-    <Section className="overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-100">
+    <Section className="overflow-hidden bg-medical">
       <Container>
         <div className="grid items-center gap-16 lg:grid-cols-2">
           {/* Left Content */}

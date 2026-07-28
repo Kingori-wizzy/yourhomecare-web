@@ -45,7 +45,7 @@ export async function Footer() {
               className="flex items-center gap-4"
             >
               <Image
-                src={settings.branding.logoUrl}
+                src={settings.branding.footerLogoUrl ?? settings.branding.logoUrl}
                 alt={settings.branding.name}
                 width={60}
                 height={60}

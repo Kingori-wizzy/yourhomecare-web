@@ -7,9 +7,14 @@ import { Header } from "@/components/layout/header";
 interface SiteChromeProps {
   children: React.ReactNode;
   footer: React.ReactNode;
+  branding?: {
+    name?: string;
+    tagline?: string;
+    logoUrl?: string;
+  };
 }
 
-export function SiteChrome({ children, footer }: SiteChromeProps) {
+export function SiteChrome({ children, footer, branding }: SiteChromeProps) {
   const pathname = usePathname();
   const isPortal = pathname?.startsWith("/portal") ?? false;
 
@@ -19,7 +24,7 @@ export function SiteChrome({ children, footer }: SiteChromeProps) {
 
   return (
     <>
-      <Header />
+      <Header branding={branding} />
       <main>{children}</main>
       {footer}
     </>

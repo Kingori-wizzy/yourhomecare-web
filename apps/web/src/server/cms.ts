@@ -15,6 +15,7 @@ import {
   type PartnerRecord,
   type JobListingRecord,
   type BlogPostRecord,
+  type MediaRecord,
 } from "@/server/services";
 import { ensureCmsSeeded } from "@/server/seed";
 
@@ -406,6 +407,9 @@ export interface SiteSettings {
     tagline: string;
     description: string;
     logoUrl: string;
+    darkLogoUrl: string;
+    footerLogoUrl: string;
+    faviconUrl: string;
   };
   contact: {
     phone: string;
@@ -443,6 +447,9 @@ export function buildSiteSettingsDefaults(): SiteSettings {
       tagline: company.tagline,
       description: siteConfig.description,
       logoUrl: "/branding/logo.png",
+      darkLogoUrl: "/branding/logo.png",
+      footerLogoUrl: "/branding/logo.png",
+      faviconUrl: "/branding/logo.png",
     },
     contact: {
       phone: company.phone,
@@ -584,6 +591,37 @@ export function buildPartnerSeedRecords(): Array<Omit<PartnerRecord, "id" | "cre
   return records;
 }
 
+export function buildMediaSeedRecords(): Array<Omit<MediaRecord, "id" | "createdAt" | "updatedAt">> {
+  const records: Array<Omit<MediaRecord, "id" | "createdAt" | "updatedAt">> = [];
+  const branding = buildSiteSettingsDefaults().branding;
+
+  records.push({
+    name: "Site Logo",
+    url: branding.logoUrl,
+    resourceType: "image",
+    mimeType: "image/png",
+    folder: "branding",
+    alt: `${branding.name} logo`,
+    tags: ["branding", "logo"],
+  });
+
+  for (const category of partnersContent.categories) {
+    for (const partner of category.partners) {
+      records.push({
+        name: `${partner.name} logo`,
+        url: partner.logo,
+        resourceType: "image",
+        mimeType: "image/png",
+        folder: "partners",
+        alt: `${partner.name} logo`,
+        tags: ["partner", category.title],
+      });
+    }
+  }
+
+  return records;
+}
+
 export function buildJobSeedRecords(): Array<Omit<JobListingRecord, "id" | "createdAt" | "updatedAt">> {
   return careersContent.positions.map((position, index) => ({
     title: position.title,
@@ -599,13 +637,19 @@ export function buildJobSeedRecords(): Array<Omit<JobListingRecord, "id" | "crea
 export function buildBlogSeedRecords(): Array<Omit<BlogPostRecord, "id" | "createdAt" | "updatedAt">> {
   return blogContent.posts.map((post) => ({
     title: post.title,
-    slug: slugify(post.title),
+    slug: post.slug ?? slugify(post.title),
     excerpt: post.excerpt,
-    content: post.excerpt,
-    authorName: "YourHomeCare Team",
-    tags: [post.category],
+    content: post.content ?? post.excerpt,
+    featuredImageUrl: post.featuredImage,
+    authorName: post.author ?? "YourHomeCare Clinical Team",
+    tags: [post.category, ...(post.tags ?? [])].filter(
+      (tag, index, all) => all.indexOf(tag) === index
+    ),
     status: "published",
     published: true,
+    publishedAt: post.publishedAt ? new Date(post.publishedAt).toISOString() : undefined,
+    seoTitle: post.seoTitle,
+    seoDescription: post.seoDescription,
   }));
 }
 
@@ -801,6 +845,16 @@ export interface BlogPostItem {
   category: string;
   excerpt: string;
   date: string;
+  publishedAt?: string;
+  readingTime: string;
+  featuredImage?: string;
+  authorName?: string;
+}
+
+function estimateReadingTime(content: string): string {
+  const words = content.trim().split(/\s+/).filter(Boolean).length;
+  const minutes = Math.max(1, Math.round(words / 200));
+  return `${minutes} min read`;
 }
 
 export function toBlogPostItems(records: BlogPostRecord[]): BlogPostItem[] {
@@ -812,5 +866,9 @@ export function toBlogPostItems(records: BlogPostRecord[]): BlogPostItem[] {
     date: record.publishedAt
       ? new Date(record.publishedAt).toLocaleDateString("en-KE", { year: "numeric", month: "long", day: "numeric" })
       : "Coming Soon",
+    publishedAt: record.publishedAt,
+    readingTime: estimateReadingTime(record.content ?? ""),
+    featuredImage: record.featuredImageUrl,
+    authorName: record.authorName,
   }));
 }

@@ -278,24 +278,9 @@ export const contactService = createCrudRepository<ContactRecord>([], {
   tableName: "contacts",
 });
 
-export const jobService = createCrudRepository<JobListingRecord>(
-  [
-    {
-      id: "job-1",
-      title: "Caregiver",
-      department: "Clinical",
-      location: "Nairobi",
-      employmentType: "Full-time",
-      description: "Provide compassionate in-home care and support.",
-      requirements: ["Certificate in caregiving", "2+ years experience"],
-      isOpen: true,
-      displayOrder: 1,
-      createdAt: now,
-      updatedAt: now,
-    },
-  ],
-  { tableName: "job_listings" }
-);
+export const jobService = createCrudRepository<JobListingRecord>([], {
+  tableName: "job_listings",
+});
 
 export const careersService = createCrudRepository<CareerRecord>([], {
   tableName: "careers",
@@ -305,58 +290,17 @@ export const newsletterService = createCrudRepository<NewsletterRecord>([], {
   tableName: "newsletters",
 });
 
-export const blogPostService = createCrudRepository<BlogPostRecord>(
-  [
-    {
-      id: "blog-1",
-      title: "Home care planning essentials",
-      slug: "home-care-planning-essentials",
-      excerpt: "A practical checklist for planning safe home care support.",
-      content: "This article covers planning, care coordination, and communication.",
-      authorName: "YourHomeCare Team",
-      published: true,
-      status: "published",
-      createdAt: now,
-      updatedAt: now,
-    },
-  ],
-  { tableName: "blog_posts" }
-);
+export const blogPostService = createCrudRepository<BlogPostRecord>([], {
+  tableName: "blog_posts",
+});
 
-export const partnerService = createCrudRepository<PartnerRecord>(
-  [
-    {
-      id: "partner-1",
-      name: "Nairobi Hospital",
-      description: "A trusted hospital network for patient referrals.",
-      websiteUrl: "https://www.nairobihospital.org",
-      featured: true,
-      visible: true,
-      displayOrder: 1,
-      createdAt: now,
-      updatedAt: now,
-    },
-  ],
-  { tableName: "partners" }
-);
+export const partnerService = createCrudRepository<PartnerRecord>([], {
+  tableName: "partners",
+});
 
-export const testimonialService = createCrudRepository<TestimonialRecord>(
-  [
-    {
-      id: "testimonial-1",
-      author: "Sarah Njeri",
-      role: "Family member",
-      quote: "The care team helped our loved one recover comfortably at home.",
-      rating: 5,
-      featured: true,
-      approved: true,
-      visible: true,
-      createdAt: now,
-      updatedAt: now,
-    },
-  ],
-  { tableName: "testimonials" }
-);
+export const testimonialService = createCrudRepository<TestimonialRecord>([], {
+  tableName: "testimonials",
+});
 
 export const serviceService = createCrudRepository<ServiceRecord>([], {
   tableName: "services",

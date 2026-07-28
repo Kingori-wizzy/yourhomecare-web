@@ -9,7 +9,7 @@ interface ServicesHeroProps {
 
 export function ServicesHero({ hero = servicesContent.hero }: ServicesHeroProps) {
   return (
-    <Section className="bg-slate-50">
+    <Section className="bg-medical">
       <Container>
         <div className="mx-auto max-w-4xl text-center">
 

@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { CareerApplicationSchema } from "@/lib/validations/careers";
 import { createEmailPayload, sendEmail } from "@/lib/email";
 import { createRateLimitError, rateLimit, sanitizeInput } from "@/lib/security";
-import { careersService } from "@/server/services";
+import { careersService, notificationService } from "@/server/services";
 
 function getClientKey(request: Request) {
   return request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "anonymous";
@@ -43,6 +43,13 @@ export async function POST(request: Request) {
       experience: payload.experience,
       coverLetter: payload.message,
       status: "new",
+    });
+
+    await notificationService.create({
+      title: "New career application",
+      message: `${payload.fullName} applied for ${payload.position}.`,
+      type: "careers",
+      read: false,
     });
 
     await sendEmail(

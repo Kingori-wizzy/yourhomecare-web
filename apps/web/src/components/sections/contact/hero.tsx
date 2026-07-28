@@ -10,7 +10,7 @@ interface ContactHeroProps {
 
 export function ContactHero({ hero = contactContent.hero }: ContactHeroProps) {
   return (
-    <Section className="bg-slate-50">
+    <Section className="bg-medical">
 
       <Container>
 

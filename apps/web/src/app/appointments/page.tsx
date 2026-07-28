@@ -1,34 +1,30 @@
-import Link from "next/link";
-
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
-import { Button } from "@/components/ui/button";
 import { buildMetadata } from "@/lib/metadata";
 
+import { BookingForm } from "@/components/sections/appointments/booking-form";
+
 export const metadata = buildMetadata({
-  title: "Book an Assessment",
-  description: "Schedule a home healthcare assessment with YourHomeCare.",
+  title: "Book an Appointment",
+  description: "Schedule a home healthcare appointment or assessment with YourHomeCare.",
   path: "/appointments",
 });
 
 export default function AppointmentsPage() {
   return (
-    <Section className="bg-slate-50">
+    <Section className="bg-medical-soft">
       <Container>
-        <div className="mx-auto max-w-4xl rounded-3xl border bg-white p-10 shadow-sm">
+        <div className="mx-auto max-w-4xl text-center">
           <p className="font-semibold uppercase tracking-[0.2em] text-primary">Appointments</p>
-          <h1 className="mt-4 text-4xl font-bold">Book a Home Care Assessment</h1>
-          <p className="mt-6 text-lg leading-8 text-muted-foreground">
-            Use our contact and assessment forms to request a professional evaluation for home healthcare support.
+          <h1 className="mt-4 text-4xl font-bold lg:text-5xl">Book a Home Healthcare Appointment</h1>
+          <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-muted-foreground">
+            Tell us about the patient and the care required. Choose a preferred date and time, and our
+            care team will confirm your appointment shortly.
           </p>
-          <div className="mt-10 flex flex-wrap gap-4">
-            <Link href="/contact#assessment">
-              <Button>Request Assessment</Button>
-            </Link>
-            <Link href="/contact#referral">
-              <Button variant="outline">Refer a Patient</Button>
-            </Link>
-          </div>
+        </div>
+
+        <div className="mx-auto mt-16 max-w-4xl">
+          <BookingForm />
         </div>
       </Container>
     </Section>

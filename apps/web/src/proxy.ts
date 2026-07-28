@@ -4,7 +4,7 @@ import { getToken } from "next-auth/jwt";
 
 const PUBLIC_PORTAL_PATHS = ["/portal/login", "/portal/forgot-password", "/portal/reset-password"];
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const response = NextResponse.next();

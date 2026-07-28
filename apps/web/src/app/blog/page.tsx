@@ -1,5 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Search } from "lucide-react";
+import { ArrowRight, CalendarDays, Search } from "lucide-react";
 
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
@@ -70,15 +71,26 @@ export default async function BlogPage() {
 
           <div className="mt-16 grid gap-8 lg:grid-cols-2">
             {(restPosts.length ? restPosts : items).map((post) => (
-              <article key={post.slug} className="rounded-3xl border bg-white p-8 shadow-sm">
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">{post.category}</p>
-                <h3 className="mt-4 text-2xl font-bold">{post.title}</h3>
-                <p className="mt-4 leading-8 text-muted-foreground">{post.excerpt}</p>
-                <div className="mt-6 flex items-center justify-between text-sm text-slate-500">
-                  <span>{post.date}</span>
-                  <Link href={`/blog/${post.slug}`} className="inline-flex items-center gap-2 font-semibold text-primary">
-                    Read more <ArrowRight size={16} />
-                  </Link>
+              <article key={post.slug} className="overflow-hidden rounded-3xl border bg-white shadow-sm">
+                {post.featuredImage && (
+                  <div className="relative h-56 w-full">
+                    <Image src={post.featuredImage} alt={post.title} fill className="object-cover" />
+                  </div>
+                )}
+                <div className="p-8">
+                  <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">{post.category}</p>
+                  <h3 className="mt-4 text-2xl font-bold">{post.title}</h3>
+                  <p className="mt-4 leading-8 text-muted-foreground">{post.excerpt}</p>
+                  <div className="mt-6 flex items-center justify-between text-sm text-slate-500">
+                    <span className="inline-flex items-center gap-2">
+                      <CalendarDays size={16} />
+                      {post.date}
+                      {post.readingTime ? ` · ${post.readingTime}` : ""}
+                    </span>
+                    <Link href={`/blog/${post.slug}`} className="inline-flex items-center gap-2 font-semibold text-primary">
+                      Read more <ArrowRight size={16} />
+                    </Link>
+                  </div>
                 </div>
               </article>
             ))}

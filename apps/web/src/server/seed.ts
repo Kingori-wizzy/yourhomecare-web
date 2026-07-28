@@ -14,11 +14,13 @@ import {
   solutionService,
   faqService,
   jobService,
+  mediaService,
 } from "@/server/services";
 import {
   buildBlogSeedRecords,
   buildFaqSeedRecords,
   buildJobSeedRecords,
+  buildMediaSeedRecords,
   buildPageContentSeedEntries,
   buildPartnerSeedRecords,
   buildServiceSeedRecords,
@@ -71,6 +73,7 @@ async function performSeed(): Promise<void> {
     seedIfEmpty(partnerService, buildPartnerSeedRecords()),
     seedIfEmpty(jobService, buildJobSeedRecords()),
     seedIfEmpty(blogPostService, buildBlogSeedRecords()),
+    seedIfEmpty(mediaService, buildMediaSeedRecords()),
   ]);
 }
 

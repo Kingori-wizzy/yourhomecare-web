@@ -35,6 +35,6 @@ html {
 }
 
 body {
-  background: var(--background);
+  background: radial-gradient(ellipse at top, #eaf6ff 0%, #f8fbfd 45%, #ffffff 100%);
   color: var(--foreground);
 }

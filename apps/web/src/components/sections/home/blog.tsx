@@ -3,6 +3,7 @@ import { CalendarDays } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 
+import Image from "next/image";
 import Link from "next/link";
 
 import { blogContent } from "@/content/blog";
@@ -13,7 +14,23 @@ interface LatestArticlesProps {
   posts?: BlogPostItem[];
 }
 
-export function LatestArticles({ heading = blogContent.hero, posts = blogContent.posts.map((post) => ({ ...post, slug: "" })) }: LatestArticlesProps) {
+const DEFAULT_POSTS: BlogPostItem[] = blogContent.posts.map((post) => ({
+  slug: post.slug,
+  title: post.title,
+  category: post.category,
+  excerpt: post.excerpt,
+  date: new Date(post.publishedAt).toLocaleDateString("en-KE", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }),
+  publishedAt: post.publishedAt,
+  readingTime: post.readingTime,
+  featuredImage: post.featuredImage,
+  authorName: post.author,
+}));
+
+export function LatestArticles({ heading = blogContent.hero, posts = DEFAULT_POSTS }: LatestArticlesProps) {
   return (
     <Section className="bg-white">
       <Container>
@@ -35,8 +52,20 @@ export function LatestArticles({ heading = blogContent.hero, posts = blogContent
           {posts.slice(0, 3).map((article) => (
             <article
               key={article.title}
-              className="rounded-3xl border bg-slate-50 p-8 transition hover:shadow-lg"
+              className="overflow-hidden rounded-3xl border bg-slate-50 transition hover:shadow-lg"
             >
+              {article.featuredImage && (
+                <div className="relative h-48 w-full">
+                  <Image
+                    src={article.featuredImage}
+                    alt={article.title}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              )}
+
+              <div className="p-8">
               <span className="rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
                 {article.category}
               </span>
@@ -56,6 +85,7 @@ export function LatestArticles({ heading = blogContent.hero, posts = blogContent
               <div className="mt-8 flex items-center gap-2 text-sm text-muted-foreground">
                 <CalendarDays size={16} />
                 {article.date}
+              </div>
               </div>
             </article>
           ))}

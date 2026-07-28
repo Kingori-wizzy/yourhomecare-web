@@ -10,7 +10,7 @@ interface AboutHeroProps {
 
 export function AboutHero({ hero = aboutContent.hero }: AboutHeroProps) {
   return (
-    <Section className="bg-gradient-to-b from-slate-50 to-white">
+    <Section className="bg-medical">
       <Container>
         <div className="mx-auto max-w-4xl text-center">
           <span className="rounded-full bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">

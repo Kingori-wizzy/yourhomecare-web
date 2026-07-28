@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/footer";
 import { fontSans, fontMono } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/config/site";
+import { getSiteSettings } from "@/server/cms";
 
 import { Toaster } from "sonner";
 import { QueryProvider } from "@/providers/query-provider";
@@ -49,6 +50,8 @@ interface RootLayoutProps {
 export default async function RootLayout({
   children,
 }: Readonly<RootLayoutProps>) {
+  const settings = await getSiteSettings();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -59,7 +62,16 @@ export default async function RootLayout({
         )}
       >
         <QueryProvider>
-          <SiteChrome footer={<Footer />}>{children}</SiteChrome>
+          <SiteChrome
+            footer={<Footer />}
+            branding={{
+              name: settings.branding.name,
+              tagline: settings.branding.tagline,
+              logoUrl: settings.branding.logoUrl,
+            }}
+          >
+            {children}
+          </SiteChrome>
           <Toaster
             richColors
             position="top-right"

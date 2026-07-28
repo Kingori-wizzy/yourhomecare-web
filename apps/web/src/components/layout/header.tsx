@@ -9,12 +9,20 @@ import { Logo } from "@/components/common/logo";
 import { Navbar } from "./navbar";
 import { MobileMenu } from "./mobile-menu";
 
-export function Header() {
+interface HeaderProps {
+  branding?: {
+    name?: string;
+    tagline?: string;
+    logoUrl?: string;
+  };
+}
+
+export function Header({ branding }: HeaderProps) {
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-md">
       <Container className="flex h-[72px] items-center justify-between">
 
-        <Logo />
+        <Logo logoUrl={branding?.logoUrl} name={branding?.name} tagline={branding?.tagline} />
 
         <Navbar />
 

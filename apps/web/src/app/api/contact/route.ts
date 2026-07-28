@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { ContactSchema } from "@/lib/validations/contact";
 import { createEmailPayload, sendEmail } from "@/lib/email";
 import { createRateLimitError, rateLimit, sanitizeInput } from "@/lib/security";
-import { contactService } from "@/server/services";
+import { contactService, notificationService } from "@/server/services";
 
 function getClientKey(request: Request) {
   return request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "anonymous";
@@ -44,6 +44,13 @@ export async function POST(request: Request) {
       subject: payload.subject,
       message: payload.message,
       status: "new",
+    });
+
+    await notificationService.create({
+      title: "New contact enquiry",
+      message: `${payload.fullName}: ${payload.subject}`,
+      type: "contact",
+      read: false,
     });
 
     await sendEmail(

@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { AssessmentSchema } from "@/lib/validations/assessment";
 import { createEmailPayload, sendEmail } from "@/lib/email";
 import { createRateLimitError, rateLimit, sanitizeInput } from "@/lib/security";
-import { assessmentService } from "@/server/services";
+import { assessmentService, notificationService } from "@/server/services";
 
 function getClientKey(request: Request) {
   return request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "anonymous";
@@ -48,6 +48,13 @@ export async function POST(request: Request) {
       preferredTime: payload.preferredTime,
       notes: payload.notes,
       status: "new",
+    });
+
+    await notificationService.create({
+      title: "New assessment request",
+      message: `${payload.fullName} requested ${payload.service} for ${payload.patientName}.`,
+      type: "assessment",
+      read: false,
     });
 
     await sendEmail(

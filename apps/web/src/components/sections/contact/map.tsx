@@ -1,5 +1,3 @@
-import { MapPin } from "lucide-react";
-
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 
@@ -28,22 +26,17 @@ export function MapSection() {
 
         <div className="mt-16 overflow-hidden rounded-3xl border shadow-sm">
 
-          <div className="flex h-[450px] flex-col items-center justify-center bg-slate-200">
-
-            <MapPin
-              className="text-primary"
-              size={56}
-            />
-
-            <h3 className="mt-6 text-2xl font-semibold">
-              Google Maps
-            </h3>
-
-            <p className="mt-3 text-slate-600">
-              Interactive map will be embedded here.
-            </p>
-
-          </div>
+          <iframe
+            title="Nairobi, Kenya"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d255281.6555459137!2d36.70730920392551!3d-1.302371700000045!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f10d66a5a5a5a%3A0x0!2sNairobi%2C%20Kenya!5e0!3m2!1sen!2ske!4v1700000000000"
+            width="100%"
+            height="450"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="h-[450px] w-full"
+          />
 
         </div>
 

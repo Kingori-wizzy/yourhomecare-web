@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { ReferralSchema } from "@/lib/validations/referral";
 import { createEmailPayload, sendEmail } from "@/lib/email";
 import { createRateLimitError, rateLimit, sanitizeInput } from "@/lib/security";
-import { referralService } from "@/server/services";
+import { referralService, notificationService } from "@/server/services";
 
 function getClientKey(request: Request) {
   return request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "anonymous";
@@ -48,6 +48,13 @@ export async function POST(request: Request) {
       location: payload.location,
       notes: payload.notes,
       status: "new",
+    });
+
+    await notificationService.create({
+      title: "New patient referral",
+      message: `${payload.referrerName} referred ${payload.patientName} for ${payload.service}.`,
+      type: "referral",
+      read: false,
     });
 
     await sendEmail(
