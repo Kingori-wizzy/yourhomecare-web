@@ -6,20 +6,12 @@ import { navigation } from "@/content/navigation";
 
 export function Navbar() {
   return (
-    <nav className="hidden items-center gap-8 lg:flex">
+    <nav className="flex items-center gap-7">
       {navigation.map((item) => (
         <Link
           key={item.href}
           href={item.href}
-          className="
-            text-[15px]
-            font-medium
-            text-slate-700
-            transition-all
-            duration-300
-            hover:text-primary
-            hover:-translate-y-0.5
-          "
+          className="text-[15px] font-medium text-[#1a365d]/80 transition hover:text-secondary"
         >
           {item.label}
         </Link>

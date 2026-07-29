@@ -1,31 +1,23 @@
-import { Container } from "@/components/layout/container";
-import { Section } from "@/components/layout/section";
+import { PageHero } from "@/components/common/page-hero";
 
 import { aboutContent } from "@/content/about";
-import type { PageHero } from "@/server/cms";
+import type { PageHero as PageHeroContent } from "@/server/cms";
 
 interface AboutHeroProps {
-  hero?: PageHero;
+  hero?: PageHeroContent;
 }
 
 export function AboutHero({ hero = aboutContent.hero }: AboutHeroProps) {
   return (
-    <Section className="bg-medical">
-      <Container>
-        <div className="mx-auto max-w-4xl text-center">
-          <span className="rounded-full bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">
-            {hero.badge}
-          </span>
-
-          <h1 className="mt-8 text-5xl font-bold lg:text-7xl">
-            {hero.title}
-          </h1>
-
-          <p className="mx-auto mt-8 max-w-3xl text-xl leading-9 text-muted-foreground">
-            {hero.description}
-          </p>
-        </div>
-      </Container>
-    </Section>
+    <PageHero
+      badge={hero.badge || "Trusted by 5,000+ families"}
+      title={hero.title}
+      description={hero.description}
+      imageUrl={hero.imageUrl ?? "/images/about/story.jpg"}
+      imageAlt="YourHomeCare team providing compassionate home healthcare"
+      primaryCta={{ label: "Find Care", href: "/appointments" }}
+      secondaryCta={{ label: "Our Services", href: "/services" }}
+      priority
+    />
   );
 }

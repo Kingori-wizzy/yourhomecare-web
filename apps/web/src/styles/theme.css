@@ -1,16 +1,17 @@
 :root {
-  /* ========= Brand Colors ========= */
+  /* ========= Brand Colors — Compassionate Clarity ========= */
 
-  --primary: #0f6cbd;
-  --primary-light: #eaf6ff;
+  --primary: #1a365d;
+  --primary-light: #eef4ff;
 
-  --secondary: #14b87a;
+  --secondary: #008080;
+  --secondary-light: #e6f5f5;
 
-  --accent: #eaf6ff;
+  --accent: #eef4ff;
 
   /* ========= Neutrals ========= */
 
-  --background: #f8fbfd;
+  --background: #f8f9ff;
 
   --surface: #ffffff;
 
@@ -18,9 +19,13 @@
 
   --muted: #5b6b7a;
 
-  --border: #e5e7eb;
+  --border: #e2e8f0;
 
-  /* ========= Component tokens (shadcn/base-ui mapping) ========= */
+  /* ========= Section backgrounds ========= */
+
+  --section: #eff4ff;
+
+  /* ========= Component tokens ========= */
 
   --card: #ffffff;
 
@@ -34,9 +39,11 @@
 
   --secondary-foreground: #ffffff;
 
-  --accent-foreground: #0f172a;
+  --accent-foreground: #1a365d;
 
-  --muted-surface: #f2f7fa;
+  --muted-surface: #eff4ff;
+
+  --success: #14b87a;
 
   --destructive: #dc2626;
 
@@ -44,23 +51,23 @@
 
   --input: var(--border);
 
-  --ring: var(--primary);
+  --ring: var(--secondary);
 
   /* ========= Radius ========= */
 
-  --radius: 24px;
+  --radius: 8px;
 
-  /* ========= Shadows ========= */
+  /* ========= Shadows (soft, navy tinted) ========= */
 
-  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 4px 12px rgba(26, 54, 93, 0.06);
 
-  --shadow-md: 0 12px 30px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 12px 30px rgba(26, 54, 93, 0.1);
 
-  --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 20px 50px rgba(26, 54, 93, 0.14);
 
   /* ========= Spacing ========= */
 
-  --section-padding: 6rem;
+  --section-padding: 5.5rem;
 }
 
 .dark {
@@ -73,6 +80,8 @@
   --muted: #cbd5e1;
 
   --border: #334155;
+
+  --section: #16213b;
 
   --card: #1e293b;
 

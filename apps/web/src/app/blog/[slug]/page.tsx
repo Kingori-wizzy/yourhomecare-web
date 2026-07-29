@@ -1,10 +1,11 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowLeft, CalendarDays, User } from "lucide-react";
 
+import { PageHero } from "@/components/common/page-hero";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
+import { CallToAction } from "@/components/sections/home/cta";
 import { buildMetadata } from "@/lib/metadata";
 import { getBlogPostBySlug, getPublishedBlogPosts } from "@/server/cms";
 
@@ -45,69 +46,71 @@ export default async function BlogPostPage({ params }: PageProps) {
   }
 
   const publishedDate = post.publishedAt
-    ? new Date(post.publishedAt).toLocaleDateString("en-KE", { year: "numeric", month: "long", day: "numeric" })
-    : new Date(post.createdAt).toLocaleDateString("en-KE", { year: "numeric", month: "long", day: "numeric" });
+    ? new Date(post.publishedAt).toLocaleDateString("en-KE", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : new Date(post.createdAt).toLocaleDateString("en-KE", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+
+  const badge = post.tags?.[0] || "Trusted by 5,000+ families";
 
   return (
     <>
-      <Section className="bg-slate-50">
+      <PageHero
+        badge={badge}
+        title={post.title}
+        description={
+          post.excerpt ||
+          "Practical guidance for families navigating home healthcare with confidence and care."
+        }
+        imageUrl="/images/home/resource-nutrition.jpg"
+        primaryCta={{ label: "Find Care", href: "/appointments" }}
+        secondaryCta={{ label: "Our Services", href: "/services" }}
+        priority
+      />
+
+      <Section className="bg-white pt-4">
         <Container>
           <Link
             href="/blog"
-            className="mb-8 inline-flex items-center gap-2 text-primary hover:underline"
+            className="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-secondary transition hover:text-primary"
           >
-            <ArrowLeft size={18} />
+            <ArrowLeft className="h-4 w-4" />
             Back to Blog
           </Link>
 
-          <div className="max-w-4xl">
-            {post.tags && post.tags.length > 0 && (
-              <p className="font-semibold uppercase tracking-widest text-primary">{post.tags[0]}</p>
-            )}
-
-            <h1 className="mt-4 text-4xl font-bold leading-tight lg:text-5xl">{post.title}</h1>
-
-            <div className="mt-6 flex flex-wrap items-center gap-6 text-sm text-slate-500">
-              {post.authorName && (
-                <span className="inline-flex items-center gap-2">
-                  <User size={16} />
-                  {post.authorName}
-                </span>
-              )}
+          <div className="mb-6 flex flex-wrap items-center gap-5 text-sm text-muted-foreground">
+            {post.authorName ? (
               <span className="inline-flex items-center gap-2">
-                <CalendarDays size={16} />
-                {publishedDate}
+                <User className="h-4 w-4 text-secondary" />
+                {post.authorName}
               </span>
+            ) : null}
+            <span className="inline-flex items-center gap-2">
+              <CalendarDays className="h-4 w-4 text-secondary" />
+              {publishedDate}
+            </span>
+          </div>
+
+          <div className="mx-auto max-w-3xl rounded-[8px] border border-border bg-[#f8f9ff] p-8 shadow-[var(--shadow-sm)] lg:p-10">
+            <div className="space-y-6 text-lg leading-[1.6] text-primary/90">
+              {post.content
+                .split("\n")
+                .filter(Boolean)
+                .map((paragraph, index) => (
+                  <p key={index}>{paragraph}</p>
+                ))}
             </div>
           </div>
         </Container>
       </Section>
 
-      {post.featuredImageUrl && (
-        <Container>
-          <div className="relative -mt-10 aspect-[16/9] w-full overflow-hidden rounded-3xl shadow-lg">
-            <Image src={post.featuredImageUrl} alt={post.title} fill className="object-cover" />
-          </div>
-        </Container>
-      )}
-
-      <Section>
-        <Container>
-          <div className="mx-auto max-w-3xl">
-            {post.excerpt && (
-              <p className="text-xl leading-9 text-muted-foreground">{post.excerpt}</p>
-            )}
-
-            <div className="prose prose-slate mt-8 max-w-none text-lg leading-8 text-slate-700">
-              {post.content.split("\n").filter(Boolean).map((paragraph, index) => (
-                <p key={index} className="mb-6">
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-          </div>
-        </Container>
-      </Section>
+      <CallToAction />
     </>
   );
 }

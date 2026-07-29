@@ -6,49 +6,41 @@ import { Section } from "@/components/layout/section";
 
 export function CallToAction() {
   return (
-    <Section className="bg-primary text-white">
-      <Container>
-        <div className="mx-auto max-w-4xl text-center">
-
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/80">
-            Let’s Bring Healthcare Home
+    <Section className="relative overflow-hidden bg-gradient-to-br from-secondary via-[#0a6b6b] to-primary text-white">
+      <div
+        className="pointer-events-none absolute inset-0 opacity-20 [background-image:radial-gradient(circle_at_1px_1px,white_1px,transparent_0)] [background-size:22px_22px]"
+        aria-hidden
+      />
+      <Container className="relative">
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/80">
+            Ready to start?
           </p>
-
-          <h2 className="mt-6 text-4xl font-bold leading-tight lg:text-6xl">
-            Professional Healthcare,
-            <br />
-            Wherever Patients Call Home.
+          <h2 className="mt-4 text-4xl font-extrabold leading-tight tracking-tight lg:text-5xl">
+            Compassionate care is one conversation away
           </h2>
-
-          <p className="mx-auto mt-8 max-w-3xl text-lg leading-8 text-white/90">
-            Whether you’re a patient, family member, hospital,
-            medical insurer or healthcare professional,
-            our experienced team is ready to support you with
-            compassionate, coordinated healthcare delivered in
-            the comfort of home.
+          <p className="mx-auto mt-5 max-w-2xl text-lg leading-[1.6] text-white/90">
+            Book a free assessment and let our nurse-led team design care that fits your family,
+            your home, and your loved one’s needs.
           </p>
-
-          <div className="mt-12 flex flex-wrap justify-center gap-4">
+          <div className="mt-10 flex flex-wrap justify-center gap-3">
             <Link href="/appointments">
               <Button
                 size="lg"
-                className="bg-white text-primary hover:bg-slate-100"
+                className="h-12 rounded-[8px] bg-white px-6 text-base font-semibold text-primary hover:bg-white/90"
               >
-                Request an Assessment
+                Book Assessment
               </Button>
             </Link>
-
             <Link href="/contact">
               <Button
-                variant="outline"
                 size="lg"
-                className="border-white text-white hover:bg-white hover:text-primary"
+                className="h-12 rounded-[8px] border-2 border-white/80 bg-transparent px-6 text-base font-semibold text-white hover:bg-white hover:text-primary"
               >
-                Speak to Our Team
+                Talk to Our Team
               </Button>
             </Link>
           </div>
-
         </div>
       </Container>
     </Section>

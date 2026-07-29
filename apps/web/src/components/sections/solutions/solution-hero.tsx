@@ -1,26 +1,23 @@
-import { Container } from "@/components/layout/container";
-import { Section } from "@/components/layout/section";
+import { PageHero } from "@/components/common/page-hero";
 
 import { solutionsContent } from "@/content/solutions";
+import type { PageHero as PageHeroContent } from "@/server/cms";
 
-export function SolutionHero() {
+interface SolutionHeroProps {
+  hero?: PageHeroContent;
+}
+
+export function SolutionHero({ hero = solutionsContent.hero }: SolutionHeroProps) {
   return (
-    <Section className="bg-slate-50">
-      <Container>
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="font-semibold uppercase tracking-widest text-primary">
-            {solutionsContent.hero.badge}
-          </p>
-
-          <h1 className="mt-6 text-5xl font-bold lg:text-7xl">
-            {solutionsContent.hero.title}
-          </h1>
-
-          <p className="mt-8 text-xl leading-9 text-muted-foreground">
-            {solutionsContent.hero.description}
-          </p>
-        </div>
-      </Container>
-    </Section>
+    <PageHero
+      badge={hero.badge || "Trusted by 5,000+ families"}
+      title={hero.title}
+      description={hero.description}
+      imageUrl={hero.imageUrl ?? "/images/flyers/insurers-partners.png"}
+      imageAlt="Healthcare solutions for partners and families"
+      primaryCta={{ label: "Find Care", href: "/appointments" }}
+      secondaryCta={{ label: "Our Services", href: "/services" }}
+      priority
+    />
   );
 }

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import {
@@ -9,12 +8,13 @@ import {
   FaWhatsapp,
 } from "react-icons/fa";
 
-import { FaXTwitter } from "react-icons/fa6";
+import { FaTiktok } from "react-icons/fa6";
 
 import { Container } from "./container";
 
 import { navigation } from "@/content/navigation";
-import { getPublishedServices, getSiteSettings } from "@/server/cms";
+import { socials as officialSocials } from "@/content/socials";
+import { getSiteSettings } from "@/server/cms";
 
 const icons = {
   facebook: FaFacebookF,
@@ -22,184 +22,84 @@ const icons = {
   linkedin: FaLinkedinIn,
   youtube: FaYoutube,
   whatsapp: FaWhatsapp,
-  twitter: FaXTwitter,
+  tiktok: FaTiktok,
 };
 
+const extraPages = [
+  { href: "/appointments", label: "Appointments" },
+  { href: "/careers", label: "Careers" },
+  { href: "/partners", label: "Partners" },
+  { href: "/testimonials", label: "Testimonials" },
+  { href: "/faq", label: "FAQ" },
+  { href: "/privacy", label: "Privacy" },
+  { href: "/terms", label: "Terms" },
+];
+
 export async function Footer() {
-  const [settings, services] = await Promise.all([getSiteSettings(), getPublishedServices()]);
+  const settings = await getSiteSettings();
   const year = new Date().getFullYear();
-  const footerServices = services.slice(0, 6);
+  const socialLinks = settings.socials?.length ? settings.socials : officialSocials;
+
+  const pageLinks = [
+    ...navigation,
+    ...extraPages.filter((page) => !navigation.some((nav) => nav.href === page.href)),
+  ];
 
   return (
-    <footer className="bg-slate-950 text-slate-300">
-      <Container className="py-20">
-
-        <div className="grid gap-14 lg:grid-cols-4">
-
-          {/* Company */}
-
-          <div>
-
-            <Link
-              href="/"
-              className="flex items-center gap-4"
-            >
-              <Image
-                src={settings.branding.footerLogoUrl ?? settings.branding.logoUrl}
-                alt={settings.branding.name}
-                width={60}
-                height={60}
-                priority
-              />
-
-              <div>
-
-                <h3 className="text-2xl font-bold text-white">
-                  {settings.branding.name}
-                </h3>
-
-                <p className="mt-1 text-sm text-slate-400">
-                  {settings.branding.tagline}
-                </p>
-
-              </div>
-
-            </Link>
-
-            <p className="mt-8 leading-7 text-slate-400">
-              Delivering compassionate, technology-enabled healthcare wherever
-              patients call home.
+    <footer className="bg-primary text-white">
+      <Container className="py-6 lg:py-7">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <div className="max-w-xs">
+            <p className="text-base font-bold text-white">{settings.branding.name}</p>
+            <p className="mt-1 text-xs text-white/65">{settings.branding.tagline}</p>
+            <p className="mt-3 text-xs leading-5 text-white/60">
+              {settings.contact.phone}
+              <br />
+              {settings.contact.email}
             </p>
-
           </div>
 
-          {/* Navigation */}
-
-          <div>
-
-            <h4 className="mb-6 text-lg font-semibold text-white">
-              Navigation
-            </h4>
-
-            <div className="space-y-3">
-
-              {navigation.map((item) => (
-
+          <div className="flex-1 lg:max-w-3xl lg:pl-8">
+            <p className="mb-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/55">
+              Pages
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {pageLinks.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="block transition duration-300 hover:text-primary"
+                  className="inline-flex h-8 items-center rounded-[8px] border border-white/15 bg-white/10 px-3 text-xs font-medium text-white/90 transition hover:border-secondary hover:bg-secondary hover:text-white"
                 >
                   {item.label}
                 </Link>
-
               ))}
-
             </div>
-
           </div>
 
-          {/* Services */}
+          <div className="flex shrink-0 items-center gap-1.5 lg:pt-6">
+            {socialLinks.map((social) => {
+              const Icon = icons[social.icon as keyof typeof icons];
+              if (!Icon) return null;
 
-          <div>
-
-            <h4 className="mb-6 text-lg font-semibold text-white">
-              Our Services
-            </h4>
-
-            <div className="space-y-3 text-slate-400">
-
-              {footerServices.map((service) => (
+              return (
                 <Link
-                  key={service.id}
-                  href="/services"
-                  className="block transition duration-300 hover:text-primary"
+                  key={social.name}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.name}
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-secondary"
                 >
-                  {service.name}
+                  <Icon className="h-3.5 w-3.5" />
                 </Link>
-              ))}
-
-            </div>
-
+              );
+            })}
           </div>
-
-          {/* Contact */}
-
-          <div>
-
-            <h4 className="mb-6 text-lg font-semibold text-white">
-              Contact Us
-            </h4>
-
-            <div className="space-y-3 text-slate-400">
-
-              <p>{settings.contact.phone}</p>
-
-              <p>{settings.contact.email}</p>
-
-              <p>{settings.contact.address}</p>
-
-            </div>
-
-            <div className="mt-8 flex flex-wrap gap-3">
-
-              {settings.socials.map((social) => {
-                const Icon =
-                  icons[social.icon as keyof typeof icons];
-
-                if (!Icon) return null;
-
-                return (
-                  <Link
-                    key={social.name}
-                    href={social.href}
-                    target="_blank"
-                    aria-label={social.name}
-                    className="
-                      flex
-                      h-11
-                      w-11
-                      items-center
-                      justify-center
-                      rounded-full
-                      bg-slate-800
-                      text-slate-300
-                      transition-all
-                      duration-300
-                      hover:bg-primary
-                      hover:text-white
-                      hover:scale-110
-                    "
-                  >
-                    <Icon className="h-5 w-5" />
-                  </Link>
-                );
-              })}
-
-            </div>
-
-          </div>
-
         </div>
 
-        {/* Bottom */}
-
-        <div className="mt-20 border-t border-slate-800 pt-8">
-
-          <div className="flex flex-col items-center justify-between gap-4 text-center text-sm text-slate-500 lg:flex-row">
-
-            <p>
-              &copy; {year} {settings.branding.name}. All rights reserved.
-            </p>
-
-            <p>
-              Healthcare Beyond Hospital Walls
-            </p>
-
-          </div>
-
-        </div>
-
+        <p className="mt-5 border-t border-white/10 pt-4 text-[11px] text-white/50">
+          &copy; {year} {settings.branding.name}. All rights reserved.
+        </p>
       </Container>
     </footer>
   );

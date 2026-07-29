@@ -1,10 +1,10 @@
 export const testimonialsContent = {
   badge: "Testimonials",
 
-  title: "Trusted by Patients, Families & Healthcare Partners",
+  title: "What Our Families Say",
 
   description:
-    "Our commitment to compassionate, coordinated and professional healthcare has earned the trust of patients, hospitals and healthcare organisations.",
+    "Real stories from patients and partners who trust YourHomeCare with the people they love most.",
 
   testimonials: [
     {

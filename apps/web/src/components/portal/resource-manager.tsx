@@ -384,7 +384,7 @@ export function ResourceManager({
         <div className="overflow-x-auto">
           <table className="w-full min-w-[640px] border-collapse text-sm">
             <thead>
-              <tr className="border-b border-slate-200 bg-slate-50 text-left text-xs font-semibold tracking-wide text-slate-500 uppercase">
+              <tr className="border-b border-slate-200 bg-section text-left text-xs font-semibold tracking-wide text-slate-500 uppercase">
                 {!readOnly && (
                   <th className="w-10 px-4 py-3">
                     <input
@@ -441,7 +441,7 @@ export function ResourceManager({
                 </tr>
               ) : (
                 rows.map((row) => (
-                  <tr key={row.id} className="border-b border-slate-100 last:border-0 hover:bg-slate-50">
+                  <tr key={row.id} className="border-b border-slate-100 last:border-0 hover:bg-section">
                     {!readOnly && (
                       <td className="px-4 py-3">
                         <input

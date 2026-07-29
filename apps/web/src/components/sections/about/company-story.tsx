@@ -10,26 +10,20 @@ interface CompanyStoryProps {
 
 export function CompanyStory({ story = aboutContent.story }: CompanyStoryProps) {
   return (
-    <Section>
+    <Section className="bg-section">
       <Container>
-        <div className="grid gap-16 lg:grid-cols-2">
-
-          <div>
-
-            <h2 className="text-4xl font-bold">
-              {story.title}
-            </h2>
-
-            <div className="mt-8 space-y-6 text-lg leading-8 text-muted-foreground">
-              {story.paragraphs.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-            </div>
-
+        <div className="mx-auto max-w-3xl">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-secondary">
+            Our Story
+          </p>
+          <h2 className="mt-3 text-3xl font-bold tracking-tight text-primary lg:text-5xl">
+            {story.title}
+          </h2>
+          <div className="mt-8 space-y-5 text-lg leading-[1.6] text-muted-foreground">
+            {story.paragraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
           </div>
-
-          <div className="rounded-3xl bg-slate-100 min-h-[420px]" />
-
         </div>
       </Container>
     </Section>

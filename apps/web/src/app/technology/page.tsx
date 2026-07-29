@@ -3,7 +3,7 @@ import { TechnologyOverview } from "@/components/sections/technology/overview";
 import { TechnologyFeatures } from "@/components/sections/technology/features";
 import { TechnologyBenefits } from "@/components/sections/technology/benefits";
 import { TechnologySecurity } from "@/components/sections/technology/security";
-import { TechnologyCTA } from "@/components/sections/technology/cta";
+import { CallToAction } from "@/components/sections/home/cta";
 import { buildMetadata } from "@/lib/metadata";
 import { getPageContent } from "@/server/cms";
 
@@ -23,7 +23,7 @@ export default async function TechnologyPage() {
       <TechnologyFeatures features={content.features} />
       <TechnologyBenefits benefits={content.benefits} />
       <TechnologySecurity security={content.security} />
-      <TechnologyCTA />
+      <CallToAction />
     </>
   );
 }

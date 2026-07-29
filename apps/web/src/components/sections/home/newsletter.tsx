@@ -39,7 +39,7 @@ export function NewsletterSection() {
   }
 
   return (
-    <Section className="bg-slate-50">
+    <Section className="bg-section">
       <Container>
         <div className="mx-auto max-w-5xl rounded-3xl border bg-white p-8 shadow-sm lg:p-12">
           <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
@@ -51,7 +51,7 @@ export function NewsletterSection() {
               </p>
             </div>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="rounded-3xl bg-slate-50 p-6">
+            <form onSubmit={handleSubmit(onSubmit)} className="rounded-3xl bg-section p-6">
               <label className="mb-2 block font-medium">Name</label>
               <Input placeholder="Your name" {...register("name")} />
               {errors.name && <p className="mt-2 text-sm text-red-600">{errors.name.message}</p>}

@@ -45,40 +45,52 @@ export function ApplicationForm({ positions = [] }: ApplicationFormProps) {
   }
 
   return (
-    <Section id="apply" className="bg-white">
+    <Section id="apply" className="bg-section">
       <Container>
         <div className="mx-auto max-w-4xl">
           <div className="text-center">
-            <p className="font-semibold uppercase tracking-[0.2em] text-primary">Apply Today</p>
-            <h2 className="mt-4 text-4xl font-bold">Submit Your Application</h2>
-            <p className="mx-auto mt-6 max-w-2xl text-lg text-slate-600">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-secondary">
+              Apply Today
+            </p>
+            <h2 className="mt-3 text-3xl font-bold tracking-tight text-primary lg:text-5xl">
+              Submit Your Application
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-lg leading-[1.6] text-muted-foreground">
               Share your details below and a member of our recruitment team will get back to you.
             </p>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="mt-16 rounded-3xl border bg-slate-50 p-8 shadow-sm lg:p-10">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="mt-14 rounded-[8px] border border-border bg-white p-8 shadow-[var(--shadow-sm)] lg:p-10"
+          >
             <div className="grid gap-6 md:grid-cols-2">
               <div>
-                <label className="mb-2 block font-medium">Full Name</label>
+                <label className="mb-2 block font-medium text-primary">Full Name</label>
                 <Input placeholder="John Doe" {...register("fullName")} />
-                {errors.fullName && <p className="mt-2 text-sm text-red-600">{errors.fullName.message}</p>}
+                {errors.fullName && (
+                  <p className="mt-2 text-sm text-red-600">{errors.fullName.message}</p>
+                )}
               </div>
 
               <div>
-                <label className="mb-2 block font-medium">Email Address</label>
+                <label className="mb-2 block font-medium text-primary">Email Address</label>
                 <Input type="email" placeholder="you@example.com" {...register("email")} />
                 {errors.email && <p className="mt-2 text-sm text-red-600">{errors.email.message}</p>}
               </div>
 
               <div>
-                <label className="mb-2 block font-medium">Phone Number</label>
+                <label className="mb-2 block font-medium text-primary">Phone Number</label>
                 <Input placeholder="+254..." {...register("phone")} />
                 {errors.phone && <p className="mt-2 text-sm text-red-600">{errors.phone.message}</p>}
               </div>
 
               <div>
-                <label className="mb-2 block font-medium">Position</label>
-                <select {...register("position")} className="flex h-11 w-full rounded-md border border-slate-300 bg-white px-3 text-sm">
+                <label className="mb-2 block font-medium text-primary">Position</label>
+                <select
+                  {...register("position")}
+                  className="flex h-11 w-full rounded-[8px] border border-border bg-white px-3 text-sm"
+                >
                   <option value="">Select a Position</option>
                   {positions.map((position) => (
                     <option key={position.title} value={position.title}>
@@ -87,23 +99,41 @@ export function ApplicationForm({ positions = [] }: ApplicationFormProps) {
                   ))}
                   <option value="General Application">General Application</option>
                 </select>
-                {errors.position && <p className="mt-2 text-sm text-red-600">{errors.position.message}</p>}
+                {errors.position && (
+                  <p className="mt-2 text-sm text-red-600">{errors.position.message}</p>
+                )}
               </div>
 
               <div className="md:col-span-2">
-                <label className="mb-2 block font-medium">Relevant Experience</label>
-                <Textarea rows={4} placeholder="Briefly describe your relevant qualifications and experience..." {...register("experience")} />
-                {errors.experience && <p className="mt-2 text-sm text-red-600">{errors.experience.message}</p>}
+                <label className="mb-2 block font-medium text-primary">Relevant Experience</label>
+                <Textarea
+                  rows={4}
+                  placeholder="Briefly describe your relevant qualifications and experience..."
+                  {...register("experience")}
+                />
+                {errors.experience && (
+                  <p className="mt-2 text-sm text-red-600">{errors.experience.message}</p>
+                )}
               </div>
 
               <div className="md:col-span-2">
-                <label className="mb-2 block font-medium">Motivation Statement</label>
-                <Textarea rows={5} placeholder="Tell us why you would like to join YourHomeCare..." {...register("message")} />
-                {errors.message && <p className="mt-2 text-sm text-red-600">{errors.message.message}</p>}
+                <label className="mb-2 block font-medium text-primary">Motivation Statement</label>
+                <Textarea
+                  rows={5}
+                  placeholder="Tell us why you would like to join YourHomeCare..."
+                  {...register("message")}
+                />
+                {errors.message && (
+                  <p className="mt-2 text-sm text-red-600">{errors.message.message}</p>
+                )}
               </div>
             </div>
 
-            <Button size="lg" className="mt-8 px-10" disabled={loading}>
+            <Button
+              size="lg"
+              className="mt-8 h-12 rounded-[8px] bg-secondary px-10 text-base font-semibold text-white hover:bg-secondary/90"
+              disabled={loading}
+            >
               {loading ? "Submitting..." : "Submit Application"}
             </Button>
           </form>

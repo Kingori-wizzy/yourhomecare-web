@@ -61,7 +61,7 @@ export function CareProcess({ content = DEFAULT_CONTENT }: CareProcessProps) {
             return (
               <div
                 key={step.number}
-                className="relative rounded-3xl border border-slate-200 bg-slate-50 p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-lg"
+                className="relative rounded-3xl border border-slate-200 bg-section p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-lg"
               >
                 <div className="absolute right-6 top-6 text-5xl font-extrabold text-slate-100">
                   {step.number}

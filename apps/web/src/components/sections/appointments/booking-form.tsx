@@ -54,37 +54,42 @@ export function BookingForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="rounded-3xl border bg-white p-10 shadow-sm">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="rounded-[8px] border border-border bg-white p-8 shadow-[var(--shadow-sm)] lg:p-10"
+    >
       <div className="grid gap-6 md:grid-cols-2">
         <div>
-          <label className="mb-2 block font-medium">Full Name</label>
+          <label className="mb-2 block font-medium text-primary">Full Name</label>
           <Input placeholder="John Doe" {...register("fullName")} />
           {errors.fullName && <p className="mt-2 text-sm text-red-600">{errors.fullName.message}</p>}
         </div>
 
         <div>
-          <label className="mb-2 block font-medium">Phone Number</label>
+          <label className="mb-2 block font-medium text-primary">Phone Number</label>
           <Input placeholder="+254..." {...register("phone")} />
           {errors.phone && <p className="mt-2 text-sm text-red-600">{errors.phone.message}</p>}
         </div>
 
         <div>
-          <label className="mb-2 block font-medium">Email Address</label>
+          <label className="mb-2 block font-medium text-primary">Email Address</label>
           <Input type="email" placeholder="example@email.com" {...register("email")} />
           {errors.email && <p className="mt-2 text-sm text-red-600">{errors.email.message}</p>}
         </div>
 
         <div>
-          <label className="mb-2 block font-medium">Patient Name</label>
+          <label className="mb-2 block font-medium text-primary">Patient Name</label>
           <Input placeholder="Patient Name" {...register("patientName")} />
-          {errors.patientName && <p className="mt-2 text-sm text-red-600">{errors.patientName.message}</p>}
+          {errors.patientName && (
+            <p className="mt-2 text-sm text-red-600">{errors.patientName.message}</p>
+          )}
         </div>
 
         <div className="md:col-span-2">
-          <label className="mb-2 block font-medium">Service Required</label>
+          <label className="mb-2 block font-medium text-primary">Service Required</label>
           <select
             {...register("service")}
-            className="flex h-11 w-full rounded-md border border-slate-300 bg-white px-3 text-sm"
+            className="flex h-11 w-full rounded-[8px] border border-border bg-white px-3 text-sm"
             defaultValue=""
           >
             <option value="" disabled>
@@ -100,16 +105,18 @@ export function BookingForm() {
         </div>
 
         <div>
-          <label className="mb-2 block font-medium">Preferred Date</label>
+          <label className="mb-2 block font-medium text-primary">Preferred Date</label>
           <Input type="date" {...register("preferredDate")} />
-          {errors.preferredDate && <p className="mt-2 text-sm text-red-600">{errors.preferredDate.message}</p>}
+          {errors.preferredDate && (
+            <p className="mt-2 text-sm text-red-600">{errors.preferredDate.message}</p>
+          )}
         </div>
 
         <div>
-          <label className="mb-2 block font-medium">Preferred Time</label>
+          <label className="mb-2 block font-medium text-primary">Preferred Time</label>
           <select
             {...register("preferredTime")}
-            className="flex h-11 w-full rounded-md border border-slate-300 bg-white px-3 text-sm"
+            className="flex h-11 w-full rounded-[8px] border border-border bg-white px-3 text-sm"
             defaultValue=""
           >
             <option value="" disabled>
@@ -121,17 +128,19 @@ export function BookingForm() {
               </option>
             ))}
           </select>
-          {errors.preferredTime && <p className="mt-2 text-sm text-red-600">{errors.preferredTime.message}</p>}
+          {errors.preferredTime && (
+            <p className="mt-2 text-sm text-red-600">{errors.preferredTime.message}</p>
+          )}
         </div>
 
         <div className="md:col-span-2">
-          <label className="mb-2 block font-medium">Location</label>
+          <label className="mb-2 block font-medium text-primary">Location</label>
           <Input placeholder="Town / County" {...register("location")} />
           {errors.location && <p className="mt-2 text-sm text-red-600">{errors.location.message}</p>}
         </div>
 
         <div className="md:col-span-2">
-          <label className="mb-2 block font-medium">Additional Notes</label>
+          <label className="mb-2 block font-medium text-primary">Additional Notes</label>
           <Textarea
             rows={6}
             placeholder="Tell us about the patient's condition and how we can help..."
@@ -141,7 +150,12 @@ export function BookingForm() {
         </div>
       </div>
 
-      <Button size="lg" type="submit" className="mt-8 bg-primary px-10 hover:bg-primary/90" disabled={disabled}>
+      <Button
+        size="lg"
+        type="submit"
+        className="mt-8 h-12 rounded-[8px] bg-secondary px-10 text-base font-semibold text-white hover:bg-secondary/90"
+        disabled={disabled}
+      >
         {disabled ? "Submitting..." : "Book Appointment"}
       </Button>
     </form>

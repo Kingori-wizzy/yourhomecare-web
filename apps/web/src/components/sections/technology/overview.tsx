@@ -46,54 +46,38 @@ export function TechnologyOverview({ introduction = technologyContent.introducti
   return (
     <Section className="bg-white">
       <Container>
-
-        <div className="mx-auto max-w-3xl text-center">
-
-          <p className="font-semibold uppercase tracking-widest text-primary">
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-secondary">
             Digital Healthcare
           </p>
-
-          <h2 className="mt-4 text-4xl font-bold lg:text-5xl">
+          <h2 className="mt-3 text-3xl font-bold tracking-tight text-primary lg:text-5xl">
             {introduction.title}
           </h2>
-
-          <p className="mt-6 text-lg leading-8 text-muted-foreground">
+          <p className="mt-4 text-lg leading-[1.6] text-muted-foreground">
             {introduction.description}
           </p>
-
         </div>
 
-        <div className="mt-20 grid gap-8 md:grid-cols-2">
-
+        <div className="mt-14 grid gap-6 md:grid-cols-2">
           {highlights.map((item) => {
-
             const Icon = item.icon;
 
             return (
-              <div
+              <article
                 key={item.title}
-                className="rounded-3xl border border-slate-200 bg-slate-50 p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                className="rounded-[8px] border border-border bg-[#f8f9ff] p-7 shadow-[var(--shadow-sm)] transition duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-md)]"
               >
-
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                  <Icon size={28} />
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-secondary/12 text-secondary">
+                  <Icon className="h-6 w-6" />
                 </div>
-
-                <h3 className="mt-6 text-2xl font-semibold">
-                  {item.title}
-                </h3>
-
-                <p className="mt-4 leading-8 text-muted-foreground">
+                <h3 className="mt-5 text-2xl font-bold text-primary">{item.title}</h3>
+                <p className="mt-3 text-base leading-[1.6] text-muted-foreground">
                   {item.description}
                 </p>
-
-              </div>
+              </article>
             );
-
           })}
-
         </div>
-
       </Container>
     </Section>
   );

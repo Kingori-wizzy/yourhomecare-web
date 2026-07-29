@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { AuthProvider } from "@/providers/auth-provider";
+
 export const metadata: Metadata = {
   title: {
     default: "YourHomeCare Portal",
@@ -22,5 +24,9 @@ export default function PortalLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="min-h-screen bg-slate-50 text-slate-900">{children}</div>;
+  return (
+    <AuthProvider>
+      <div className="min-h-screen bg-section text-slate-900">{children}</div>
+    </AuthProvider>
+  );
 }

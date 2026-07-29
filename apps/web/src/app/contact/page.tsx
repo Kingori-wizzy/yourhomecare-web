@@ -12,7 +12,8 @@ import { getPageContent } from "@/server/cms";
 
 export const metadata = buildMetadata({
   title: "Contact Us",
-  description: "Get in touch with YourHomeCare for assessments, referrals, home care support and general enquiries.",
+  description:
+    "Get in touch with YourHomeCare for assessments, referrals, home care support and general enquiries.",
   path: "/contact",
 });
 
@@ -22,21 +23,13 @@ export default async function ContactPage() {
   return (
     <>
       <ContactHero hero={content.hero} />
-
       <ContactInfo information={content.information} />
-
       <AssessmentSection />
-
       <ReferralSection />
-
       <ContactFormSection />
-
       <BusinessHoursSection phone={content.information.phone} />
-
       <MapSection />
-
       <EmergencySection message={content.emergency} />
-
       <ContactCTA
         title={content.cta.title}
         description={content.cta.description}

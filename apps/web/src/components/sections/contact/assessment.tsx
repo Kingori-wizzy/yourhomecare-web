@@ -13,6 +13,10 @@ import { Section } from "@/components/layout/section";
 import { AssessmentSchema, type AssessmentFormData } from "@/lib/validations/assessment";
 import { useSubmit } from "@/lib/hooks/use-submit";
 
+const fieldClassName = "h-11 rounded-[8px] border-border";
+const selectClassName =
+  "flex h-11 w-full rounded-[8px] border border-border bg-white px-3 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50";
+
 export function AssessmentSection() {
   const { loading, submit } = useSubmit();
 
@@ -41,58 +45,97 @@ export function AssessmentSection() {
   }
 
   return (
-    <Section id="assessment" className="bg-slate-50">
+    <Section id="assessment" className="bg-white">
       <Container>
         <div className="mx-auto max-w-6xl">
-          <div className="text-center">
-            <p className="font-semibold uppercase tracking-[0.2em] text-primary">Book an Assessment</p>
-            <h2 className="mt-4 text-4xl font-bold">Request a Home Healthcare Assessment</h2>
-            <p className="mx-auto mt-6 max-w-3xl text-lg text-slate-600">
-              Tell us about the patient and the care required. Our team will review your request and contact you to arrange an assessment.
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-secondary">
+              Book an Assessment
+            </p>
+            <h2 className="mt-3 text-3xl font-bold tracking-tight text-primary lg:text-5xl">
+              Request a Home Healthcare Assessment
+            </h2>
+            <p className="mt-4 text-lg leading-[1.6] text-muted-foreground">
+              Tell us about the patient and the care required. Our team will review your request and
+              contact you to arrange an assessment.
             </p>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="mt-16 rounded-3xl border bg-white p-10 shadow-sm">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="mt-14 rounded-[8px] border border-border bg-[#f8f9ff] p-8 shadow-[var(--shadow-sm)] lg:p-10"
+          >
             <div className="grid gap-6 md:grid-cols-2">
               <div>
-                <label className="mb-2 block font-medium">Full Name</label>
-                <Input placeholder="John Doe" {...register("fullName")} />
-                {errors.fullName && <p className="mt-2 text-sm text-red-600">{errors.fullName.message}</p>}
+                <label className="mb-2 block text-sm font-medium text-primary">Full Name</label>
+                <Input
+                  placeholder="John Doe"
+                  className={fieldClassName}
+                  {...register("fullName")}
+                />
+                {errors.fullName && (
+                  <p className="mt-2 text-sm text-red-600">{errors.fullName.message}</p>
+                )}
               </div>
 
               <div>
-                <label className="mb-2 block font-medium">Phone Number</label>
-                <Input placeholder="+254..." {...register("phone")} />
-                {errors.phone && <p className="mt-2 text-sm text-red-600">{errors.phone.message}</p>}
+                <label className="mb-2 block text-sm font-medium text-primary">Phone Number</label>
+                <Input placeholder="+254..." className={fieldClassName} {...register("phone")} />
+                {errors.phone && (
+                  <p className="mt-2 text-sm text-red-600">{errors.phone.message}</p>
+                )}
               </div>
 
               <div>
-                <label className="mb-2 block font-medium">Email Address</label>
-                <Input type="email" placeholder="example@email.com" {...register("email")} />
-                {errors.email && <p className="mt-2 text-sm text-red-600">{errors.email.message}</p>}
+                <label className="mb-2 block text-sm font-medium text-primary">Email Address</label>
+                <Input
+                  type="email"
+                  placeholder="example@email.com"
+                  className={fieldClassName}
+                  {...register("email")}
+                />
+                {errors.email && (
+                  <p className="mt-2 text-sm text-red-600">{errors.email.message}</p>
+                )}
               </div>
 
               <div>
-                <label className="mb-2 block font-medium">Patient Name</label>
-                <Input placeholder="Patient Name" {...register("patientName")} />
-                {errors.patientName && <p className="mt-2 text-sm text-red-600">{errors.patientName.message}</p>}
+                <label className="mb-2 block text-sm font-medium text-primary">Patient Name</label>
+                <Input
+                  placeholder="Patient Name"
+                  className={fieldClassName}
+                  {...register("patientName")}
+                />
+                {errors.patientName && (
+                  <p className="mt-2 text-sm text-red-600">{errors.patientName.message}</p>
+                )}
               </div>
 
               <div>
-                <label className="mb-2 block font-medium">Patient Age</label>
-                <Input placeholder="Age" {...register("patientAge")} />
-                {errors.patientAge && <p className="mt-2 text-sm text-red-600">{errors.patientAge.message}</p>}
+                <label className="mb-2 block text-sm font-medium text-primary">Patient Age</label>
+                <Input placeholder="Age" className={fieldClassName} {...register("patientAge")} />
+                {errors.patientAge && (
+                  <p className="mt-2 text-sm text-red-600">{errors.patientAge.message}</p>
+                )}
               </div>
 
               <div>
-                <label className="mb-2 block font-medium">Location</label>
-                <Input placeholder="Town / County" {...register("location")} />
-                {errors.location && <p className="mt-2 text-sm text-red-600">{errors.location.message}</p>}
+                <label className="mb-2 block text-sm font-medium text-primary">Location</label>
+                <Input
+                  placeholder="Town / County"
+                  className={fieldClassName}
+                  {...register("location")}
+                />
+                {errors.location && (
+                  <p className="mt-2 text-sm text-red-600">{errors.location.message}</p>
+                )}
               </div>
 
               <div className="md:col-span-2">
-                <label className="mb-2 block font-medium">Required Service</label>
-                <select {...register("service")} className="flex h-11 w-full rounded-md border border-slate-300 bg-white px-3 text-sm">
+                <label className="mb-2 block text-sm font-medium text-primary">
+                  Required Service
+                </label>
+                <select {...register("service")} className={selectClassName}>
                   <option value="">Select a Service</option>
                   <option value="Home Nursing">Home Nursing</option>
                   <option value="Palliative Care">Palliative Care</option>
@@ -102,27 +145,52 @@ export function AssessmentSection() {
                   <option value="Post Hospital Recovery">Post Hospital Recovery</option>
                   <option value="Rehabilitation Support">Rehabilitation Support</option>
                 </select>
-                {errors.service && <p className="mt-2 text-sm text-red-600">{errors.service.message}</p>}
+                {errors.service && (
+                  <p className="mt-2 text-sm text-red-600">{errors.service.message}</p>
+                )}
               </div>
 
               <div>
-                <label className="mb-2 block font-medium">Preferred Visit Date</label>
-                <Input type="date" {...register("preferredDate")} />
+                <label className="mb-2 block text-sm font-medium text-primary">
+                  Preferred Visit Date
+                </label>
+                <Input
+                  type="date"
+                  className={fieldClassName}
+                  {...register("preferredDate")}
+                />
               </div>
 
               <div>
-                <label className="mb-2 block font-medium">Preferred Time</label>
-                <Input type="time" {...register("preferredTime")} />
+                <label className="mb-2 block text-sm font-medium text-primary">Preferred Time</label>
+                <Input
+                  type="time"
+                  className={fieldClassName}
+                  {...register("preferredTime")}
+                />
               </div>
 
               <div className="md:col-span-2">
-                <label className="mb-2 block font-medium">Additional Notes</label>
-                <Textarea rows={6} placeholder="Tell us about the patient's condition and how we can help..." {...register("notes")} />
-                {errors.notes && <p className="mt-2 text-sm text-red-600">{errors.notes.message}</p>}
+                <label className="mb-2 block text-sm font-medium text-primary">
+                  Additional Notes
+                </label>
+                <Textarea
+                  rows={6}
+                  placeholder="Tell us about the patient's condition and how we can help..."
+                  className="rounded-[8px] border-border"
+                  {...register("notes")}
+                />
+                {errors.notes && (
+                  <p className="mt-2 text-sm text-red-600">{errors.notes.message}</p>
+                )}
               </div>
             </div>
 
-            <Button size="lg" className="mt-8 bg-black px-10 hover:bg-slate-800" disabled={loading}>
+            <Button
+              size="lg"
+              className="mt-8 h-12 rounded-[8px] bg-primary px-8 text-base font-semibold text-white hover:bg-primary/90"
+              disabled={loading}
+            >
               {loading ? "Submitting..." : "Request Assessment"}
             </Button>
           </form>

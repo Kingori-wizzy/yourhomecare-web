@@ -1,126 +1,78 @@
 import Link from "next/link";
-import {
-  Activity,
-  ArrowRight,
-  BriefcaseMedical,
-  HeartHandshake,
-  HeartPulse,
-  HelpingHand,
-  Hospital,
-  Network,
-  Users,
-} from "lucide-react";
+import { Check, HeartHandshake, HeartPulse, Activity } from "lucide-react";
 
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 
-import { servicesContent } from "@/content/services";
-import type { PageHero, ServiceItem } from "@/server/cms";
+const glanceServices = [
+  {
+    title: "Nursing",
+    icon: HeartPulse,
+    description: "Clinical nursing care delivered at home by experienced professionals.",
+    points: ["Wound & medication management", "Post-hospital recovery", "Chronic condition support"],
+  },
+  {
+    title: "Personal Care",
+    icon: HeartHandshake,
+    description: "Dignified daily living support that helps families breathe easier.",
+    points: ["Assistance with daily routines", "Companionship & mobility", "Respite for family caregivers"],
+  },
+  {
+    title: "Therapy",
+    icon: Activity,
+    description: "Rehabilitation therapy that rebuilds strength and independence.",
+    points: ["Physiotherapy at home", "Stroke & mobility recovery", "Personalized therapy plans"],
+  },
+];
 
-const icons = {
-  HeartPulse,
-  HeartHandshake,
-  Users,
-  Hospital,
-  Activity,
-  BriefcaseMedical,
-  HelpingHand,
-  Network,
-};
-
-interface ServicesProps {
-  heading?: PageHero;
-  services?: ServiceItem[];
-}
-
-export function Services({ heading = servicesContent.hero, services = servicesContent.services }: ServicesProps) {
+export function Services() {
   return (
-    <Section className="bg-slate-50">
+    <Section className="bg-white">
       <Container>
-        {/* Section Heading */}
-
-        <div className="mx-auto max-w-3xl text-center">
-          <p className="font-semibold uppercase tracking-widest text-primary">
-            {heading.badge}
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-secondary">
+            Our Care
           </p>
-
-          <h2 className="mt-4 text-4xl font-bold lg:text-5xl">
-            {heading.title}
+          <h2 className="mt-3 text-3xl font-bold tracking-tight text-primary lg:text-5xl">
+            Services at a Glance
           </h2>
-
-          <p className="mt-6 text-lg leading-8 text-muted-foreground">
-            {heading.description}
+          <p className="mt-4 text-lg leading-[1.6] text-muted-foreground">
+            Nurse-led home healthcare designed around comfort, clinical excellence, and family trust.
           </p>
         </div>
 
-        {/* Services Grid */}
-
-        <div className="mt-16 grid gap-8 md:grid-cols-2 xl:grid-cols-4">
-          {services.map((service) => {
-            const Icon =
-              icons[service.icon as keyof typeof icons] ?? HeartPulse;
-
+        <div className="mt-14 grid gap-6 md:grid-cols-3">
+          {glanceServices.map((service) => {
+            const Icon = service.icon;
             return (
-              <div
+              <article
                 key={service.title}
-                className="group rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-primary hover:shadow-xl"
+                className="rounded-[8px] border border-border bg-[#f8f9ff] p-7 shadow-[var(--shadow-sm)] transition duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-md)]"
               >
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                  <Icon size={28} />
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-secondary/12 text-secondary">
+                  <Icon className="h-6 w-6" />
                 </div>
-
-                <h3 className="mt-6 text-2xl font-bold">
-                  {service.title}
-                </h3>
-
-                <p className="mt-4 leading-7 text-muted-foreground">
+                <h3 className="mt-5 text-2xl font-bold text-primary">{service.title}</h3>
+                <p className="mt-3 text-base leading-[1.6] text-muted-foreground">
                   {service.description}
                 </p>
-
-                {/* Preview Features */}
-
-                <ul className="mt-6 space-y-2">
-                  {service.features.slice(0, 3).map((feature) => (
-                    <li
-                      key={feature}
-                      className="flex items-center gap-2 text-sm text-slate-700"
-                    >
-                      <span className="h-2 w-2 rounded-full bg-primary" />
-                      {feature}
+                <ul className="mt-6 space-y-2.5">
+                  {service.points.map((point) => (
+                    <li key={point} className="flex items-start gap-2.5 text-[15px] text-primary/90">
+                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-secondary" />
+                      <span>{point}</span>
                     </li>
                   ))}
                 </ul>
-
                 <Link
                   href="/services"
-                  className="mt-8 inline-flex items-center font-semibold text-primary transition group-hover:translate-x-1"
+                  className="mt-7 inline-block text-sm font-semibold text-secondary transition hover:text-primary"
                 >
-                  View Service
-
-                  <ArrowRight
-                    size={18}
-                    className="ml-2"
-                  />
+                  Learn more →
                 </Link>
-              </div>
+              </article>
             );
           })}
-        </div>
-
-        {/* Bottom CTA */}
-
-        <div className="mt-16 text-center">
-          <Link
-            href="/services"
-            className="inline-flex items-center rounded-xl bg-primary px-8 py-4 font-semibold text-white transition hover:opacity-90"
-          >
-            Explore All Healthcare Services
-
-            <ArrowRight
-              size={20}
-              className="ml-2"
-            />
-          </Link>
         </div>
       </Container>
     </Section>

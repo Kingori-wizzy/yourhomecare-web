@@ -35,6 +35,8 @@ html {
 }
 
 body {
-  background: radial-gradient(ellipse at top, #eaf6ff 0%, #f8fbfd 45%, #ffffff 100%);
+  background: #f8f9ff;
   color: var(--foreground);
+  font-size: 17px;
+  line-height: 1.6;
 }

@@ -99,6 +99,7 @@ export interface PageHero {
   badge: string;
   title: string;
   description: string;
+  imageUrl?: string;
 }
 
 export interface HomeSections {
@@ -579,6 +580,7 @@ export function buildPartnerSeedRecords(): Array<Omit<PartnerRecord, "id" | "cre
       records.push({
         name: partner.name,
         logoUrl: partner.logo,
+        description: partner.comments?.join("\n"),
         category: category.title,
         featured: false,
         visible: true,
@@ -802,12 +804,17 @@ export function toTestimonialItems(records: TestimonialRecord[]): TestimonialIte
 
 export interface PartnerCategoryItem {
   title: string;
-  partners: Array<{ name: string; logo: string }>;
+  partners: Array<{ name: string; logo: string; comments?: string[] }>;
 }
 
 export function toPartnerCategories(records: PartnerRecord[]): PartnerCategoryItem[] {
   const order: string[] = [];
-  const groups = new Map<string, Array<{ name: string; logo: string }>>();
+  const groups = new Map<string, Array<{ name: string; logo: string; comments?: string[] }>>();
+  const contentByName = new Map(
+    partnersContent.categories.flatMap((category) =>
+      category.partners.map((partner) => [partner.name.toLowerCase(), partner] as const),
+    ),
+  );
 
   for (const record of records) {
     const category = record.category ?? "Partners";
@@ -817,7 +824,22 @@ export function toPartnerCategories(records: PartnerRecord[]): PartnerCategoryIt
       order.push(category);
     }
 
-    groups.get(category)?.push({ name: record.name, logo: record.logoUrl ?? "/branding/logo.png" });
+    const fromContent = contentByName.get(record.name.toLowerCase());
+    const comments =
+      fromContent?.comments ??
+      (record.description
+        ? record.description
+            .split(/\n+/)
+            .map((line) => line.trim())
+            .filter(Boolean)
+            .slice(0, 2)
+        : undefined);
+
+    groups.get(category)?.push({
+      name: record.name,
+      logo: record.logoUrl ?? fromContent?.logo ?? "/branding/logo.png",
+      comments,
+    });
   }
 
   return order.map((title) => ({ title, partners: groups.get(title) ?? [] }));

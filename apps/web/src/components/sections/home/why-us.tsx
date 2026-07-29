@@ -68,7 +68,7 @@ export function WhyChooseUs({ content = DEFAULT_CONTENT }: WhyChooseUsProps) {
             return (
               <div
                 key={feature.title}
-                className="rounded-3xl border border-slate-200 bg-slate-50 p-8 transition-all duration-300 hover:-translate-y-2 hover:border-primary hover:bg-white hover:shadow-xl"
+                className="rounded-3xl border border-slate-200 bg-section p-8 transition-all duration-300 hover:-translate-y-2 hover:border-primary hover:bg-white hover:shadow-xl"
               >
                 <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                   <Icon size={28} />

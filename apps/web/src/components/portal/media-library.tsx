@@ -188,7 +188,7 @@ export function MediaLibrary() {
                 key={item.id}
                 className="group relative flex flex-col overflow-hidden rounded-lg border border-slate-200"
               >
-                <div className="flex aspect-square items-center justify-center bg-slate-50">
+                <div className="flex aspect-square items-center justify-center bg-section">
                   {item.resourceType === "image" ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={item.url} alt={item.alt ?? item.name} className="size-full object-cover" />

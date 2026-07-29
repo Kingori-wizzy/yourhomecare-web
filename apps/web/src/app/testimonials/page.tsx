@@ -1,7 +1,9 @@
-import { Quote } from "lucide-react";
+import { Star } from "lucide-react";
 
+import { PageHero } from "@/components/common/page-hero";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
+import { CallToAction } from "@/components/sections/home/cta";
 import { buildMetadata } from "@/lib/metadata";
 import { getPageContent, getPublishedTestimonials, toTestimonialItems } from "@/server/cms";
 
@@ -20,32 +22,39 @@ export default async function TestimonialsPage() {
 
   return (
     <>
-      <Section className="bg-slate-50">
-        <Container>
-          <div className="mx-auto max-w-4xl text-center">
-            <p className="font-semibold uppercase tracking-[0.2em] text-primary">{content.badge}</p>
-            <h1 className="mt-4 text-4xl font-bold lg:text-5xl">{content.title}</h1>
-            <p className="mt-6 text-lg leading-8 text-muted-foreground">{content.description}</p>
-          </div>
-        </Container>
-      </Section>
+      <PageHero
+        badge={content.badge || "Trusted by 5,000+ families"}
+        title={content.title}
+        description={content.description}
+        imageUrl="/images/flyers/loved-ones-home.png"
+        primaryCta={{ label: "Find Care", href: "/appointments" }}
+        secondaryCta={{ label: "Our Services", href: "/services" }}
+        priority
+      />
 
-      <Section>
+      <Section className="bg-white">
         <Container>
-          <div className="grid gap-8 lg:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {items.map((testimonial, index) => (
               <article
                 key={`${testimonial.name}-${index}`}
-                className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
+                className="rounded-[8px] border border-border bg-[#f8f9ff] p-7 shadow-[var(--shadow-sm)] transition duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-md)]"
               >
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                  <Quote size={28} />
+                <div className="flex gap-1 text-secondary" aria-label="5 star rating">
+                  {Array.from({ length: 5 }).map((_, starIndex) => (
+                    <Star
+                      key={starIndex}
+                      className="h-4 w-4 fill-secondary text-secondary"
+                    />
+                  ))}
                 </div>
 
-                <p className="mt-6 italic leading-8 text-slate-600">{testimonial.quote}</p>
+                <p className="mt-5 text-base leading-[1.6] text-primary/90">
+                  “{testimonial.quote}”
+                </p>
 
-                <div className="mt-8 border-t border-slate-100 pt-6">
-                  <h3 className="text-lg font-semibold text-slate-900">{testimonial.name}</h3>
+                <div className="mt-7 border-t border-border pt-5">
+                  <h3 className="font-bold text-primary">{testimonial.name}</h3>
                   <p className="mt-1 text-sm text-muted-foreground">{testimonial.role}</p>
                 </div>
               </article>
@@ -53,6 +62,8 @@ export default async function TestimonialsPage() {
           </div>
         </Container>
       </Section>
+
+      <CallToAction />
     </>
   );
 }

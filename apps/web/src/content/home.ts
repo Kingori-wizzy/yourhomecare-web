@@ -1,28 +1,24 @@
 export const homeContent = {
   hero: {
-    badge: "Trusted Home Healthcare in Kenya",
+    badge: "Trusted by 5,000 families",
 
-    title: "Professional Home Care in Kenya",
+    title: "Compassionate Care, Right Where You Belong",
 
-    highlight: "Backed by UK Standards Since 2016",
+    highlight: "Nurse-led home healthcare across Kenya",
 
     description:
-      "YourHomeCare provides compassionate, personalised home healthcare services that enable individuals to recover, age, and thrive in the comfort and familiarity of their own homes. Our experienced caregivers and healthcare professionals deliver quality care tailored to every client's unique needs.",
+      "Professional caregivers and clinicians who bring dignity, clinical excellence, and peace of mind into the place your family feels safest — home.",
 
     primaryButton: {
-      text: "Book Consultation",
+      text: "Book Assessment",
       href: "/appointments",
     },
 
     secondaryButton: {
-      text: "Our Services",
+      text: "Explore Services",
       href: "/services",
     },
 
-    trust: [
-      "UK Care Standards",
-      "Experienced Care Team",
-      "Compassionate Support",
-    ],
+    trust: ["UK Care Standards", "Experienced Care Team", "Compassionate Support"],
   },
 };

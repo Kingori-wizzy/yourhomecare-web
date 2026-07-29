@@ -1,9 +1,4 @@
-import {
-  Hospital,
-  Home,
-  Users,
-  HeartPulse,
-} from "lucide-react";
+import { Hospital, Home, Users, HeartPulse } from "lucide-react";
 
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
@@ -37,50 +32,41 @@ const steps = [
 
 export function ApproachSection() {
   return (
-    <Section>
+    <Section className="bg-section">
       <Container>
-
-        <div className="mx-auto max-w-3xl text-center">
-
-          <p className="font-semibold uppercase tracking-widest text-primary">
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-secondary">
             Our Approach
           </p>
-
-          <h2 className="mt-4 text-4xl font-bold">
+          <h2 className="mt-3 text-3xl font-bold tracking-tight text-primary lg:text-5xl">
             Coordinated Healthcare Beyond Hospital Walls
           </h2>
-
         </div>
 
-        <div className="mt-16 grid gap-8 md:grid-cols-2">
-
-          {steps.map((step) => {
+        <div className="mt-14 grid gap-6 md:grid-cols-2">
+          {steps.map((step, index) => {
             const Icon = step.icon;
-
             return (
-              <div
+              <article
                 key={step.title}
-                className="rounded-3xl border p-8 transition hover:shadow-lg"
+                className="rounded-[8px] border border-border bg-white p-7 shadow-[var(--shadow-sm)] transition duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-md)]"
               >
-                <Icon
-                  className="text-primary"
-                  size={42}
-                />
-
-                <h3 className="mt-6 text-2xl font-semibold">
-                  {step.title}
-                </h3>
-
-                <p className="mt-4 leading-8 text-muted-foreground">
+                <div className="flex items-center gap-4">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-sm font-bold text-white">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-secondary/12 text-secondary">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                </div>
+                <h3 className="mt-5 text-2xl font-bold text-primary">{step.title}</h3>
+                <p className="mt-3 text-base leading-[1.6] text-muted-foreground">
                   {step.description}
                 </p>
-
-              </div>
+              </article>
             );
           })}
-
         </div>
-
       </Container>
     </Section>
   );

@@ -1,9 +1,8 @@
-import Link from "next/link";
-
+import { PageHero } from "@/components/common/page-hero";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
-import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { CallToAction } from "@/components/sections/home/cta";
 import { buildMetadata } from "@/lib/metadata";
 import { getPageContent, getPublishedFaqs, toFaqItems } from "@/server/cms";
 
@@ -19,26 +18,30 @@ export default async function FAQPage() {
 
   return (
     <>
-      <Section className="bg-slate-50">
-        <Container>
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="font-semibold uppercase tracking-[0.2em] text-primary">{content.hero.badge}</p>
-            <h1 className="mt-4 text-4xl font-bold lg:text-5xl">{content.hero.title}</h1>
-            <p className="mt-6 text-lg leading-8 text-muted-foreground">{content.hero.description}</p>
-          </div>
-        </Container>
-      </Section>
+      <PageHero
+        badge={content.hero.badge || "Trusted by 5,000+ families"}
+        title={content.hero.title}
+        description={content.hero.description}
+        imageUrl="/images/flyers/safe-discharge.png"
+        primaryCta={{ label: "Find Care", href: "/appointments" }}
+        secondaryCta={{ label: "Our Services", href: "/services" }}
+        priority
+      />
 
-      <Section>
+      <Section className="bg-white">
         <Container>
-          <div className="mx-auto max-w-4xl rounded-3xl border bg-white p-6 shadow-sm lg:p-10">
+          <div className="mx-auto max-w-4xl">
             <Accordion type="single" collapsible className="space-y-4">
               {items.map((item) => (
-                <AccordionItem key={item.question} value={item.question} className="rounded-2xl border px-4 py-2">
-                  <AccordionTrigger className="text-left text-lg font-semibold text-slate-900">
+                <AccordionItem
+                  key={item.question}
+                  value={item.question}
+                  className="rounded-[8px] border border-border bg-[#f8f9ff] px-5 py-1 shadow-[var(--shadow-sm)] transition duration-300 hover:shadow-[var(--shadow-md)]"
+                >
+                  <AccordionTrigger className="text-left text-lg font-semibold text-primary hover:no-underline">
                     {item.question}
                   </AccordionTrigger>
-                  <AccordionContent className="pt-3 text-base leading-8 text-muted-foreground">
+                  <AccordionContent className="pt-1 text-base leading-[1.6] text-muted-foreground">
                     {item.answer}
                   </AccordionContent>
                 </AccordionItem>
@@ -48,26 +51,7 @@ export default async function FAQPage() {
         </Container>
       </Section>
 
-      <Section className="bg-primary text-white">
-        <Container>
-          <div className="mx-auto max-w-3xl text-center">
-            <h2 className="text-3xl font-bold">Still have questions?</h2>
-            <p className="mt-6 text-lg text-white/80">Our care coordinators can help you understand the right service for your situation.</p>
-            <div className="mt-10 flex flex-wrap justify-center gap-4">
-              <Link href="/contact">
-                <Button size="lg" className="bg-white text-primary hover:bg-slate-100">
-                  Contact Us
-                </Button>
-              </Link>
-              <Link href="/appointments">
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
-                  Book Assessment
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </Container>
-      </Section>
+      <CallToAction />
     </>
   );
 }

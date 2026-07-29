@@ -71,7 +71,7 @@ export function PortalShell({ user, children }: { user: PortalUser; children: Re
   const roleLabel = ROLE_LABELS[user.role ?? ""] ?? "Staff";
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
+    <div className="flex min-h-screen bg-section">
       <aside className="hidden w-64 shrink-0 flex-col border-r border-slate-200 bg-white lg:flex">
         <SidebarBrand />
         <PortalSidebarNav role={user.role} />

@@ -3,9 +3,11 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowLeft, CheckCircle2 } from "lucide-react";
 
+import { PageHero } from "@/components/common/page-hero";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
+import { CallToAction } from "@/components/sections/home/cta";
 
 import { getSolution } from "@/lib/solutions";
 import { getPublishedSolutions, toSolutionItems } from "@/server/cms";
@@ -44,79 +46,58 @@ export default async function SolutionPage({ params }: PageProps) {
 
   return (
     <>
-      {/* Hero */}
+      <PageHero
+        badge="Trusted by 5,000+ families"
+        title={solution.title}
+        description={solution.description}
+        imageUrl="/images/flyers/insurers-partners.png"
+        primaryCta={{ label: "Find Care", href: "/appointments" }}
+        secondaryCta={{ label: "Our Services", href: "/services" }}
+        priority
+      />
 
-      <Section className="bg-slate-50">
+      <Section className="bg-white">
         <Container>
           <Link
             href="/solutions"
-            className="mb-8 inline-flex items-center gap-2 text-primary hover:underline"
+            className="mb-10 inline-flex items-center gap-2 text-sm font-semibold text-secondary transition hover:text-primary"
           >
-            <ArrowLeft size={18} />
+            <ArrowLeft size={16} />
             Back to Solutions
           </Link>
 
-          <div className="max-w-4xl">
-            <p className="font-semibold uppercase tracking-widest text-primary">
-              Solution
-            </p>
-
-            <h1 className="mt-4 text-5xl font-bold lg:text-6xl">
-              {solution.title}
-            </h1>
-
-            <p className="mt-8 text-xl leading-9 text-muted-foreground">
-              {solution.description}
-            </p>
-          </div>
-        </Container>
-      </Section>
-
-      {/* Features */}
-
-      <Section>
-        <Container>
-          <div className="grid gap-16 lg:grid-cols-2">
+          <div className="grid gap-10 lg:grid-cols-2">
             <div>
-              <h2 className="text-3xl font-bold">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-secondary">
+                What&apos;s included
+              </p>
+              <h2 className="mt-3 text-3xl font-bold tracking-tight text-primary lg:text-5xl">
                 Services Included
               </h2>
-
-              <p className="mt-6 leading-8 text-muted-foreground">
+              <p className="mt-4 text-lg leading-[1.6] text-muted-foreground">
                 Every solution from YourHomeCare is designed around safe,
                 coordinated, patient-centred healthcare delivered in the comfort
                 of home. Our multidisciplinary team works closely with patients,
                 families, hospitals and healthcare partners to ensure continuity
                 of care and better clinical outcomes.
               </p>
-
-              <Link
-                href="/appointments"
-                className="mt-10 inline-block"
-              >
-                <Button size="lg">
+              <Link href="/appointments" className="mt-8 inline-block">
+                <Button
+                  size="lg"
+                  className="h-12 rounded-[8px] bg-secondary px-6 text-base font-semibold text-white hover:bg-secondary/90"
+                >
                   Book an Assessment
                 </Button>
               </Link>
             </div>
 
-            <div className="rounded-3xl border bg-white p-8 shadow-sm">
-              <h3 className="mb-6 text-2xl font-semibold">
-                Services Included
-              </h3>
-
-              <div className="space-y-4">
+            <div className="rounded-[8px] border border-border bg-[#f8f9ff] p-7 shadow-[var(--shadow-sm)] transition duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-md)]">
+              <h3 className="text-2xl font-bold text-primary">Services Included</h3>
+              <div className="mt-6 space-y-4">
                 {solution.features.map((feature) => (
-                  <div
-                    key={feature}
-                    className="flex items-center gap-3"
-                  >
-                    <CheckCircle2
-                      size={20}
-                      className="text-primary"
-                    />
-
-                    <span>{feature}</span>
+                  <div key={feature} className="flex items-center gap-3">
+                    <CheckCircle2 className="h-5 w-5 shrink-0 text-secondary" />
+                    <span className="text-[15px] font-medium text-primary">{feature}</span>
                   </div>
                 ))}
               </div>
@@ -125,42 +106,7 @@ export default async function SolutionPage({ params }: PageProps) {
         </Container>
       </Section>
 
-      {/* CTA */}
-
-      <Section className="bg-primary text-white">
-        <Container>
-          <div className="mx-auto max-w-3xl text-center">
-            <h2 className="text-4xl font-bold">
-              Ready to Learn More?
-            </h2>
-
-            <p className="mt-6 text-lg text-white/80">
-              Speak with our healthcare team to discuss how this solution can
-              support you, your family, your organisation or your patients.
-            </p>
-
-            <div className="mt-10 flex flex-wrap justify-center gap-4">
-              <Link href="/appointments">
-                <Button
-                  size="lg"
-                  className="bg-white text-primary hover:bg-slate-100"
-                >
-                  Book Assessment
-                </Button>
-              </Link>
-
-              <Link href="/contact">
-                <Button
-                  size="lg"
-                  variant="outline"
-                >
-                  Contact Us
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </Container>
-      </Section>
+      <CallToAction />
     </>
   );
 }

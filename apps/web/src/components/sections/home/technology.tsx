@@ -18,7 +18,7 @@ interface TechnologyProps {
 
 export function Technology({ content = technologyContent }: TechnologyProps) {
   return (
-    <Section className="bg-slate-50">
+    <Section className="bg-section">
       <Container>
         {/* Section Heading */}
 
@@ -87,7 +87,7 @@ export function Technology({ content = technologyContent }: TechnologyProps) {
               {content.features.map((feature) => (
                 <div
                   key={feature}
-                  className="flex items-center gap-3 rounded-xl border border-slate-100 bg-slate-50 p-4"
+                  className="flex items-center gap-3 rounded-xl border border-slate-100 bg-section p-4"
                 >
                   <CheckCircle2
                     size={18}
