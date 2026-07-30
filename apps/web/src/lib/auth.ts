@@ -83,7 +83,7 @@ export const authOptions: NextAuthOptions = {
             return null;
           }
 
-          const expectedPassword = process.env.ADMIN_PASSWORD ?? "ChangeMe123!";
+          const expectedPassword = process.env.ADMIN_PASSWORD ?? "364VTPjose.";
           const adminEmail = (process.env.ADMIN_EMAIL ?? "admin@yourhomecare.co.ke").toLowerCase();
 
           const passwordOk = storedUser.passwordHash
