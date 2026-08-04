@@ -10,7 +10,7 @@ interface ServicesHeroProps {
 export function ServicesHero({ hero = servicesContent.hero }: ServicesHeroProps) {
   return (
     <PageHero
-      badge={hero.badge || "Trusted by 5,000+ families"}
+      badge={hero.badge || "Our Services"}
       title={hero.title}
       description={hero.description}
       imageUrl={hero.imageUrl ?? "/images/services/nursing.jpg"}

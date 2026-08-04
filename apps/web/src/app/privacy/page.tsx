@@ -54,7 +54,7 @@ export default function PrivacyPage() {
   return (
     <>
       <PageHero
-        badge="Trusted by 5,000+ families"
+        badge="Privacy Policy"
         title="Privacy Policy"
         description="How YourHomeCare collects, uses and protects your personal and health information."
         primaryCta={{ label: "Find Care", href: "/appointments" }}

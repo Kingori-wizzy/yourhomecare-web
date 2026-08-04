@@ -9,23 +9,18 @@ interface LogoProps {
 
 export function Logo({
   logoUrl = "/branding/logo.png",
-  name = "YourHomeCare",
-  tagline = "Healthcare Beyond Hospital Walls",
+  name = "Your Home Care",
 }: LogoProps) {
   return (
-    <Link href="/" className="flex items-center gap-3">
+    <Link href="/" className="flex items-center" aria-label={name}>
       <Image
         src={logoUrl}
         alt={name}
-        width={44}
-        height={44}
-        className="h-11 w-11 rounded-[8px] object-contain"
+        width={280}
+        height={100}
+        className="h-20 w-auto object-contain sm:h-24"
         priority
       />
-      <div className="hidden min-[420px]:block">
-        <p className="text-lg font-bold leading-none text-primary sm:text-xl">{name}</p>
-        <p className="mt-1 text-[11px] text-muted-foreground sm:text-xs">{tagline}</p>
-      </div>
     </Link>
   );
 }

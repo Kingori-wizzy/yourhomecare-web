@@ -24,7 +24,7 @@ export default async function PartnersPage() {
   return (
     <>
       <PageHero
-        badge={content.hero.badge || "Trusted by 5,000+ families"}
+        badge={content.hero.badge || "Trusted Partnerships"}
         title={content.hero.title}
         description={content.hero.description}
         imageUrl="/images/flyers/insurers-partners.png"

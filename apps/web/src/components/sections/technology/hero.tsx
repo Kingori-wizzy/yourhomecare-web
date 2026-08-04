@@ -10,7 +10,7 @@ interface TechnologyHeroProps {
 export function TechnologyHero({ hero = technologyContent.hero }: TechnologyHeroProps) {
   return (
     <PageHero
-      badge={hero.badge || "Trusted by 5,000+ families"}
+      badge={hero.badge || "Technology"}
       title={hero.title}
       description={hero.description}
       imageUrl={hero.imageUrl ?? "/images/hero/insurers.jpg"}

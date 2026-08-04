@@ -57,7 +57,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         day: "numeric",
       });
 
-  const badge = post.tags?.[0] || "Trusted by 5,000+ families";
+  const badge = post.tags?.[0] || "Insights";
 
   return (
     <>

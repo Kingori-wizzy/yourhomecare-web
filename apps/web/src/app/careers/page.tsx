@@ -21,7 +21,7 @@ export default async function CareersPage() {
   return (
     <>
       <PageHero
-        badge={content.hero.badge || "Trusted by 5,000+ families"}
+        badge={content.hero.badge || "Join Our Team"}
         title={content.hero.title}
         description={content.hero.description}
         imageUrl="/images/flyers/refer-patients.png"

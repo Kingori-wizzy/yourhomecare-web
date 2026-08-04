@@ -10,7 +10,7 @@ interface AboutHeroProps {
 export function AboutHero({ hero = aboutContent.hero }: AboutHeroProps) {
   return (
     <PageHero
-      badge={hero.badge || "Trusted by 5,000+ families"}
+      badge={hero.badge || "About YourHomeCare"}
       title={hero.title}
       description={hero.description}
       imageUrl={hero.imageUrl ?? "/images/about/story.jpg"}

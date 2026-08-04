@@ -58,7 +58,7 @@ export default function TermsPage() {
   return (
     <>
       <PageHero
-        badge="Trusted by 5,000+ families"
+        badge="Terms of Service"
         title="Terms of Service"
         description="The terms and conditions governing the use of YourHomeCare services and website."
         primaryCta={{ label: "Find Care", href: "/appointments" }}

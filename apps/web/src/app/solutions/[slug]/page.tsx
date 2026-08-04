@@ -47,7 +47,7 @@ export default async function SolutionPage({ params }: PageProps) {
   return (
     <>
       <PageHero
-        badge="Trusted by 5,000+ families"
+        badge="Healthcare Solutions"
         title={solution.title}
         description={solution.description}
         imageUrl="/images/flyers/insurers-partners.png"

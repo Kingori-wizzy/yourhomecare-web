@@ -24,7 +24,7 @@ export default async function BlogPage() {
   return (
     <>
       <PageHero
-        badge={content.hero.badge || "Trusted by 5,000+ families"}
+        badge={content.hero.badge || "Insights"}
         title={content.hero.title}
         description={content.hero.description}
         imageUrl="/images/flyers/professional-home-healthcare.png"

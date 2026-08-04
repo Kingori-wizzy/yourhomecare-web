@@ -19,7 +19,7 @@ export default async function FAQPage() {
   return (
     <>
       <PageHero
-        badge={content.hero.badge || "Trusted by 5,000+ families"}
+        badge={content.hero.badge || "Frequently Asked Questions"}
         title={content.hero.title}
         description={content.hero.description}
         imageUrl="/images/flyers/safe-discharge.png"

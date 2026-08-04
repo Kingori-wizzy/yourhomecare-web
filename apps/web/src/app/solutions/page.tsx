@@ -26,7 +26,7 @@ export default async function SolutionsPage() {
   return (
     <>
       <PageHero
-        badge={content.hero.badge || "Trusted by 5,000+ families"}
+        badge={content.hero.badge || "Healthcare Solutions"}
         title={content.hero.title}
         description={content.hero.description}
         imageUrl="/images/flyers/insurers-partners.png"

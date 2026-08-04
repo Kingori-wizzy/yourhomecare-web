@@ -10,7 +10,7 @@ interface SolutionHeroProps {
 export function SolutionHero({ hero = solutionsContent.hero }: SolutionHeroProps) {
   return (
     <PageHero
-      badge={hero.badge || "Trusted by 5,000+ families"}
+      badge={hero.badge || "Healthcare Solutions"}
       title={hero.title}
       description={hero.description}
       imageUrl={hero.imageUrl ?? "/images/flyers/insurers-partners.png"}

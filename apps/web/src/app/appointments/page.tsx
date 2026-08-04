@@ -15,7 +15,7 @@ export default function AppointmentsPage() {
   return (
     <>
       <PageHero
-        badge="Trusted by 5,000+ families"
+        badge="Book Assessment"
         title="Book a Home Healthcare Appointment"
         description="Tell us about the patient and the care required. Choose a preferred date and time, and our care team will confirm your appointment shortly."
         imageUrl="/images/hero/professionals.jpg"

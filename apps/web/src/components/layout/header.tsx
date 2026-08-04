@@ -20,13 +20,9 @@ interface HeaderProps {
 export function Header({ branding }: HeaderProps) {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-white/90 backdrop-blur-md">
-      <Container className="relative flex h-[72px] items-center justify-between gap-4">
+      <Container className="relative flex h-[108px] items-center justify-between gap-4">
         <div className="z-10 shrink-0">
-          <Logo
-            logoUrl={branding?.logoUrl}
-            name={branding?.name}
-            tagline={branding?.tagline}
-          />
+          <Logo logoUrl={branding?.logoUrl} name={branding?.name} />
         </div>
 
         <div className="absolute left-1/2 hidden -translate-x-1/2 lg:block">

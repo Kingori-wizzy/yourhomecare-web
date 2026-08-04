@@ -1,6 +1,6 @@
 export const homeContent = {
   hero: {
-    badge: "Trusted by 5,000 families",
+    badge: "Dignity • Compassion • Home",
 
     title: "Compassionate Care, Right Where You Belong",
 

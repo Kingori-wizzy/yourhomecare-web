@@ -10,7 +10,7 @@ interface ContactHeroProps {
 export function ContactHero({ hero = contactContent.hero }: ContactHeroProps) {
   return (
     <PageHero
-      badge={hero.badge || "Trusted by 5,000+ families"}
+      badge={hero.badge || "Contact Us"}
       title={hero.title}
       description={hero.description}
       imageUrl={hero.imageUrl ?? "/images/hero/professionals.jpg"}

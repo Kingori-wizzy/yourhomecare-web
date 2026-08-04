@@ -23,7 +23,7 @@ export default async function TestimonialsPage() {
   return (
     <>
       <PageHero
-        badge={content.badge || "Trusted by 5,000+ families"}
+        badge={content.badge || "Testimonials"}
         title={content.title}
         description={content.description}
         imageUrl="/images/flyers/loved-ones-home.png"
