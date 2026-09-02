@@ -2,8 +2,9 @@ import { NextResponse } from "next/server";
 
 import { NewsletterSchema } from "@/lib/validations/newsletter";
 import { createEmailPayload, sendEmail } from "@/lib/email";
+import { publicDatabaseErrorResponse } from "@/lib/database-response";
 import { createRateLimitError, rateLimit, sanitizeInput } from "@/lib/security";
-import { newsletterService } from "@/server/services";
+import { newsletterPublicService, newsletterService } from "@/server/services";
 
 function getClientKey(request: Request) {
   return request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "anonymous";
@@ -48,7 +49,7 @@ export async function POST(request: Request) {
       });
     }
 
-    await newsletterService.create({
+    await newsletterPublicService.create({
       email: payload.email,
       name: payload.name,
       consent: true,
@@ -67,13 +68,16 @@ export async function POST(request: Request) {
       message: "Subscription received successfully.",
       data: payload,
     });
-  } catch {
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Unable to process your subscription right now.",
-      },
-      { status: 500 }
+  } catch (error) {
+    return (
+      publicDatabaseErrorResponse(error) ??
+      NextResponse.json(
+        {
+          success: false,
+          message: "Unable to process your subscription right now.",
+        },
+        { status: 500 },
+      )
     );
   }
 }

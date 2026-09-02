@@ -11,7 +11,7 @@ export async function GET() {
   }
 
   return NextResponse.json({
-    metrics: getDashboardMetrics(),
+    metrics: await getDashboardMetrics(),
     services: Object.keys(adminServiceRegistry),
   });
 }

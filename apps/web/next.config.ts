@@ -11,6 +11,12 @@ const nextConfig: NextConfig = {
     ],
   },
   poweredByHeader: false,
+  async redirects() {
+    return [
+      { source: "/team", destination: "/about#team", permanent: true },
+      { source: "/reviews", destination: "/testimonials#reviews", permanent: true },
+    ];
+  },
   async headers() {
     return [
       {

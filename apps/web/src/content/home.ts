@@ -9,6 +9,8 @@ export const homeContent = {
     description:
       "Professional caregivers and clinicians who bring dignity, clinical excellence, and peace of mind into the place your family feels safest — home.",
 
+    imageUrl: "/images/home/hero-caregiver-patient.jpg",
+
     primaryButton: {
       text: "Book Assessment",
       href: "/appointments",

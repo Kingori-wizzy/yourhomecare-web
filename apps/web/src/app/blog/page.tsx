@@ -15,6 +15,8 @@ export const metadata = buildMetadata({
   path: "/blog",
 });
 
+export const dynamic = "force-dynamic";
+
 export default async function BlogPage() {
   const [content, posts] = await Promise.all([getPageContent("blog"), getPublishedBlogPosts()]);
   const items = toBlogPostItems(posts);

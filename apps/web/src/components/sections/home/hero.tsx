@@ -13,11 +13,13 @@ interface HeroProps {
 }
 
 export function Hero({ hero = homeContent.hero }: HeroProps) {
+  const heroImage = hero.imageUrl ?? "/images/home/hero-caregiver-patient.jpg";
+
   return (
     <section className="relative isolate pb-16 pt-0">
       <div className="relative min-h-[78vh] w-full overflow-hidden lg:min-h-[88vh]">
         <Image
-          src="/images/home/hero-caregiver-patient.jpg"
+          src={heroImage}
           alt="A Black caregiver supporting an elderly Black patient in a warm, sunlit home"
           fill
           priority

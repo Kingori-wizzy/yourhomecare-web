@@ -4,19 +4,26 @@ import { TrustSection } from "@/components/sections/home/trust";
 import { Testimonials } from "@/components/sections/home/testimonials";
 import { LatestArticles } from "@/components/sections/home/blog";
 import { CallToAction } from "@/components/sections/home/cta";
-import { homeContent } from "@/content/home";
+import { ClientReviewsSection } from "@/components/reviews/client-reviews-section";
 
 import {
+  getApprovedReviews,
+  getPageContent,
   getPublishedBlogPosts,
   getPublishedTestimonials,
   toBlogPostItems,
+  toReviewItems,
   toTestimonialItems,
 } from "@/server/cms";
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
-  const [testimonials, blogPosts] = await Promise.all([
+  const [homeContent, testimonials, blogPosts, reviewsResult] = await Promise.all([
+    getPageContent("home"),
     getPublishedTestimonials(),
     getPublishedBlogPosts(),
+    getApprovedReviews({ page: 1, pageSize: 6 }),
   ]);
 
   return (
@@ -32,6 +39,12 @@ export default async function HomePage() {
             "Real stories from patients and partners who trust YourHomeCare with the people they love most.",
         }}
         testimonials={toTestimonialItems(testimonials)}
+      />
+      <ClientReviewsSection
+        initialReviews={toReviewItems(reviewsResult.data)}
+        initialHasMore={reviewsResult.pagination.hasMore}
+        title="Client Reviews"
+        description="Recent ratings from families who trust YourHomeCare with care at home."
       />
       <LatestArticles
         heading={{

@@ -45,6 +45,8 @@ export interface ResourceField {
   helperText?: string;
   /** Hide this field from the table columns (still editable in the dialog). */
   hideInTable?: boolean;
+  /** Hide this field from create/edit dialog (still visible in table when applicable). */
+  hideInForm?: boolean;
   /** List field values are edited as comma-separated text and stored as an array. */
   isList?: boolean;
 }
@@ -326,6 +328,7 @@ export function ResourceManager({
   }
 
   const tableFields = fields.filter((f) => !f.hideInTable);
+  const formFields = fields.filter((f) => !f.hideInForm);
   const allSelected = rows.length > 0 && selectedIds.length === rows.length;
   const isMutating = createMutation.isPending || updateMutation.isPending;
 
@@ -540,7 +543,7 @@ export function ResourceManager({
           </DialogHeader>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            {fields.map((field) => (
+            {formFields.map((field) => (
               <div key={field.key}>
                 {field.type !== "boolean" && (
                   <label className="mb-1.5 block text-sm font-medium text-slate-700">

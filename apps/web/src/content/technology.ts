@@ -1,6 +1,6 @@
 export const technologyContent = {
   hero: {
-    badge: "Technology",
+    badge: "Tech",
     title: "Powered by TaskEase",
     description:
       "TaskEase is our digital care coordination platform that enables secure documentation, care planning, visit tracking and communication between healthcare teams.",

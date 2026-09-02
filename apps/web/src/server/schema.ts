@@ -45,6 +45,12 @@ export const publishStatusEnum = pgEnum("publish_status", [
   "archived",
 ]);
 
+export const reviewStatusEnum = pgEnum("review_status", [
+  "pending",
+  "approved",
+  "rejected",
+]);
+
 export const users = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom(),
   name: varchar("name", { length: 255 }).notNull(),
@@ -324,6 +330,32 @@ export const auditLogs = pgTable("audit_logs", {
   details: jsonb("details"),
   ipAddress: varchar("ip_address", { length: 100 }),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const teamMembers = pgTable("team_members", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  fullName: varchar("full_name", { length: 255 }).notNull(),
+  title: varchar("title", { length: 255 }).notNull(),
+  rank: varchar("rank", { length: 100 }),
+  biography: text("biography"),
+  department: varchar("department", { length: 255 }),
+  photoUrl: varchar("photo_url", { length: 500 }),
+  displayOrder: integer("display_order").notNull().default(0),
+  isActive: boolean("is_active").notNull().default(true),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const clientReviews = pgTable("client_reviews", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  name: varchar("name", { length: 255 }).notNull(),
+  email: varchar("email", { length: 255 }),
+  rating: integer("rating").notNull(),
+  comment: text("comment").notNull(),
+  status: reviewStatusEnum("status").notNull().default("pending"),
+  ipHash: varchar("ip_hash", { length: 64 }),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
 export const notifications = pgTable("notifications", {

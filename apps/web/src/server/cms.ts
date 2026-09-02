@@ -1,13 +1,14 @@
 import {
-  pageContentService,
-  settingsService,
-  serviceService,
-  solutionService,
-  faqService,
-  testimonialService,
-  partnerService,
-  jobService,
-  blogPostService,
+  blogPostPublicService,
+  faqPublicService,
+  jobPublicService,
+  pageContentPublicService,
+  partnerPublicService,
+  servicePublicService,
+  settingsPublicService,
+  solutionPublicService,
+  teamPublicService,
+  testimonialPublicService,
   type ServiceRecord,
   type SolutionRecord,
   type FaqRecord,
@@ -16,8 +17,12 @@ import {
   type JobListingRecord,
   type BlogPostRecord,
   type MediaRecord,
+  type TeamMemberRecord,
 } from "@/server/services";
+import type { PublicReviewRecord } from "@/server/review-public";
+import { listPublicApprovedReviews } from "@/server/review-public";
 import { ensureCmsSeeded } from "@/server/seed";
+import { DatabaseUnavailableError, isStrictCmsPersistence } from "@/server/db-errors";
 
 import { siteConfig } from "@/config/site";
 import { company } from "@/content/company";
@@ -91,6 +96,28 @@ function withFallbackRecord<T extends Record<string, unknown>>(
   return { ...input, id: `${prefix}-fallback-${index}`, createdAt: now, updatedAt: now };
 }
 
+function resolveCatalogSource<T>(
+  items: T[],
+  seedRecords: Array<Record<string, unknown>>,
+  prefix: string,
+): T[] {
+  if (items.length > 0) {
+    return items;
+  }
+
+  if (isStrictCmsPersistence()) {
+    return [];
+  }
+
+  return seedRecords.map((item, index) => withFallbackRecord(item, prefix, index)) as T[];
+}
+
+function rethrowDatabaseError(error: unknown) {
+  if (error instanceof DatabaseUnavailableError) {
+    throw error;
+  }
+}
+
 /* -------------------------------------------------------------------------- */
 /*  Page content sections                                                     */
 /* -------------------------------------------------------------------------- */
@@ -108,6 +135,7 @@ export interface HomeSections {
     title: string;
     highlight: string;
     description: string;
+    imageUrl?: string;
     primaryButton: { text: string; href: string };
     secondaryButton: { text: string; href: string };
     trust: string[];
@@ -385,14 +413,15 @@ export async function getPageContent<K extends PageKey>(pageKey: K): Promise<Pag
   const fallback = getPageDefaults(pageKey);
 
   try {
-    const pages = await pageContentService.list();
+    const pages = await pageContentPublicService.list();
     const record = pages.find((page) => page.pageKey === pageKey);
 
     if (record?.sections && Object.keys(record.sections).length > 0) {
       return deepMerge(fallback, record.sections);
     }
-  } catch {
-    // fall through to static fallback content
+  } catch (error) {
+    rethrowDatabaseError(error);
+    // Development-only: fall back to static defaults when DB is unavailable.
   }
 
   return fallback;
@@ -498,7 +527,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
   const fallback = buildSiteSettingsDefaults();
 
   try {
-    const rows = await settingsService.list();
+    const rows = await settingsPublicService.list();
 
     if (rows.length > 0) {
       const map = new Map(rows.map((row) => [row.key, row.value]));
@@ -514,8 +543,9 @@ export async function getSiteSettings(): Promise<SiteSettings> {
         colors: deepMerge(fallback.colors, map.get("colors")),
       };
     }
-  } catch {
-    // fall through to static fallback content
+  } catch (error) {
+    rethrowDatabaseError(error);
+    // Development-only: fall back to static defaults when DB is unavailable.
   }
 
   return fallback;
@@ -662,9 +692,8 @@ export function buildBlogSeedRecords(): Array<Omit<BlogPostRecord, "id" | "creat
 export async function getPublishedServices(): Promise<ServiceRecord[]> {
   await ensureCmsSeeded();
 
-  const items = await serviceService.list();
-  const source =
-    items.length > 0 ? items : buildServiceSeedRecords().map((item, index) => withFallbackRecord(item, "service", index));
+  const items = await servicePublicService.list();
+  const source = resolveCatalogSource(items, buildServiceSeedRecords(), "service");
 
   return sortByDisplayOrder(source.filter((item) => item.visible !== false));
 }
@@ -672,11 +701,8 @@ export async function getPublishedServices(): Promise<ServiceRecord[]> {
 export async function getPublishedSolutions(): Promise<SolutionRecord[]> {
   await ensureCmsSeeded();
 
-  const items = await solutionService.list();
-  const source =
-    items.length > 0
-      ? items
-      : buildSolutionSeedRecords().map((item, index) => withFallbackRecord(item, "solution", index));
+  const items = await solutionPublicService.list();
+  const source = resolveCatalogSource(items, buildSolutionSeedRecords(), "solution");
 
   return sortByDisplayOrder(source.filter((item) => item.visible !== false));
 }
@@ -684,9 +710,8 @@ export async function getPublishedSolutions(): Promise<SolutionRecord[]> {
 export async function getPublishedFaqs(): Promise<FaqRecord[]> {
   await ensureCmsSeeded();
 
-  const items = await faqService.list();
-  const source =
-    items.length > 0 ? items : buildFaqSeedRecords().map((item, index) => withFallbackRecord(item, "faq", index));
+  const items = await faqPublicService.list();
+  const source = resolveCatalogSource(items, buildFaqSeedRecords(), "faq");
 
   return sortByDisplayOrder(source.filter((item) => item.visible !== false));
 }
@@ -694,23 +719,30 @@ export async function getPublishedFaqs(): Promise<FaqRecord[]> {
 export async function getPublishedTestimonials(): Promise<TestimonialRecord[]> {
   await ensureCmsSeeded();
 
-  const items = await testimonialService.list();
-  const source =
-    items.length > 0
-      ? items
-      : buildTestimonialSeedRecords().map((item, index) => withFallbackRecord(item, "testimonial", index));
+  const items = await testimonialPublicService.list();
+  const source = resolveCatalogSource(items, buildTestimonialSeedRecords(), "testimonial");
 
-  return sortByDisplayOrder(source.filter((item) => item.visible !== false));
+  return sortByDisplayOrder(
+    source.filter((item) => item.visible !== false && item.approved !== false),
+  );
+}
+
+export async function getPublishedTeamMembers(): Promise<TeamMemberRecord[]> {
+  const items = await teamPublicService.list();
+  return sortByDisplayOrder(
+    items.filter((member) => member.isActive !== false),
+  );
+}
+
+export async function getApprovedReviews(options?: { page?: number; pageSize?: number }) {
+  return listPublicApprovedReviews(options);
 }
 
 export async function getPublishedPartners(): Promise<PartnerRecord[]> {
   await ensureCmsSeeded();
 
-  const items = await partnerService.list();
-  const source =
-    items.length > 0
-      ? items
-      : buildPartnerSeedRecords().map((item, index) => withFallbackRecord(item, "partner", index));
+  const items = await partnerPublicService.list();
+  const source = resolveCatalogSource(items, buildPartnerSeedRecords(), "partner");
 
   return sortByDisplayOrder(source.filter((item) => item.visible !== false));
 }
@@ -718,9 +750,8 @@ export async function getPublishedPartners(): Promise<PartnerRecord[]> {
 export async function getPublishedJobs(): Promise<JobListingRecord[]> {
   await ensureCmsSeeded();
 
-  const items = await jobService.list();
-  const source =
-    items.length > 0 ? items : buildJobSeedRecords().map((item, index) => withFallbackRecord(item, "job", index));
+  const items = await jobPublicService.list();
+  const source = resolveCatalogSource(items, buildJobSeedRecords(), "job");
 
   return sortByDisplayOrder(source.filter((item) => item.isOpen !== false));
 }
@@ -728,9 +759,8 @@ export async function getPublishedJobs(): Promise<JobListingRecord[]> {
 export async function getPublishedBlogPosts(): Promise<BlogPostRecord[]> {
   await ensureCmsSeeded();
 
-  const items = await blogPostService.list();
-  const source =
-    items.length > 0 ? items : buildBlogSeedRecords().map((item, index) => withFallbackRecord(item, "blog", index));
+  const items = await blogPostPublicService.list();
+  const source = resolveCatalogSource(items, buildBlogSeedRecords(), "blog");
 
   return source
     .filter((item) => item.published !== false)
@@ -792,6 +822,7 @@ export interface TestimonialItem {
   name: string;
   role: string;
   quote: string;
+  rating: number;
 }
 
 export function toTestimonialItems(records: TestimonialRecord[]): TestimonialItem[] {
@@ -799,6 +830,47 @@ export function toTestimonialItems(records: TestimonialRecord[]): TestimonialIte
     name: record.author,
     role: record.role ?? "",
     quote: record.quote,
+    rating: record.rating ?? 5,
+  }));
+}
+
+export interface TeamMemberItem {
+  id: string;
+  fullName: string;
+  title: string;
+  rank?: string;
+  biography?: string;
+  department?: string;
+  photoUrl?: string;
+}
+
+export function toTeamMemberItems(records: TeamMemberRecord[]): TeamMemberItem[] {
+  return records.map((record) => ({
+    id: record.id,
+    fullName: record.fullName,
+    title: record.title,
+    rank: record.rank,
+    biography: record.biography,
+    department: record.department,
+    photoUrl: record.photoUrl,
+  }));
+}
+
+export interface ReviewItem {
+  id: string;
+  name: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
+}
+
+export function toReviewItems(records: Array<Pick<PublicReviewRecord, "id" | "name" | "rating" | "comment" | "createdAt">>): ReviewItem[] {
+  return records.map((record) => ({
+    id: record.id,
+    name: record.name,
+    rating: record.rating,
+    comment: record.comment,
+    createdAt: record.createdAt,
   }));
 }
 
@@ -810,11 +882,13 @@ export interface PartnerCategoryItem {
 export function toPartnerCategories(records: PartnerRecord[]): PartnerCategoryItem[] {
   const order: string[] = [];
   const groups = new Map<string, Array<{ name: string; logo: string; comments?: string[] }>>();
-  const contentByName = new Map(
-    partnersContent.categories.flatMap((category) =>
-      category.partners.map((partner) => [partner.name.toLowerCase(), partner] as const),
-    ),
-  );
+  const contentByName = isStrictCmsPersistence()
+    ? new Map<string, { logo?: string; comments?: string[] }>()
+    : new Map(
+        partnersContent.categories.flatMap((category) =>
+          category.partners.map((partner) => [partner.name.toLowerCase(), partner] as const),
+        ),
+      );
 
   for (const record of records) {
     const category = record.category ?? "Partners";

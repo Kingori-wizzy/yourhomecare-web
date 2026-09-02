@@ -3,6 +3,8 @@ import { MetadataRoute } from "next";
 import { getPublishedBlogPosts, getPublishedSolutions } from "@/server/cms";
 import { siteConfig } from "@/config/site";
 
+export const dynamic = "force-dynamic";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = siteConfig.url;
   const now = new Date();

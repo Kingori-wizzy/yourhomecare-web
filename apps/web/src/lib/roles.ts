@@ -43,6 +43,8 @@ export const MODULE_PERMISSIONS: Record<string, PortalRole[]> = {
   blog: ["super_admin", "administrator", "marketing", "content_manager", "read_only"],
   partners: ["super_admin", "administrator", "marketing", "content_manager", "read_only"],
   testimonials: ["super_admin", "administrator", "marketing", "content_manager", "read_only"],
+  reviews: ["super_admin", "administrator", "marketing", "content_manager", "read_only"],
+  team: ["super_admin", "administrator", "hr", "content_manager", "read_only"],
   media: ["super_admin", "administrator", "marketing", "content_manager", "hr"],
   settings: ["super_admin", "administrator"],
   seo: ["super_admin", "administrator", "marketing", "content_manager"],

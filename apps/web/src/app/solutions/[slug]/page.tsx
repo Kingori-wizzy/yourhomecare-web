@@ -9,7 +9,6 @@ import { Section } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
 import { CallToAction } from "@/components/sections/home/cta";
 
-import { getSolution } from "@/lib/solutions";
 import { getPublishedSolutions, toSolutionItems } from "@/server/cms";
 
 interface PageProps {
@@ -18,10 +17,12 @@ interface PageProps {
   }>;
 }
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const solutions = toSolutionItems(await getPublishedSolutions());
-  const solution = solutions.find((item) => item.slug === slug) ?? getSolution(slug);
+  const solution = solutions.find((item) => item.slug === slug);
 
   if (!solution) {
     return { title: "Solution not found" };
@@ -38,7 +39,7 @@ export default async function SolutionPage({ params }: PageProps) {
   const { slug } = await params;
 
   const solutions = toSolutionItems(await getPublishedSolutions());
-  const solution = solutions.find((item) => item.slug === slug) ?? getSolution(slug);
+  const solution = solutions.find((item) => item.slug === slug);
 
   if (!solution) {
     notFound();

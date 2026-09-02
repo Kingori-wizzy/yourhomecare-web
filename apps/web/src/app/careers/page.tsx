@@ -14,6 +14,8 @@ export const metadata = buildMetadata({
   path: "/careers",
 });
 
+export const dynamic = "force-dynamic";
+
 export default async function CareersPage() {
   const [content, jobs] = await Promise.all([getPageContent("careers"), getPublishedJobs()]);
   const positions = toJobItems(jobs);

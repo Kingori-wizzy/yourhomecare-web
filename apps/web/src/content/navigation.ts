@@ -4,10 +4,6 @@ export const navigation = [
     href: "/",
   },
   {
-    label: "About",
-    href: "/about",
-  },
-  {
     label: "Services",
     href: "/services",
   },
@@ -16,7 +12,7 @@ export const navigation = [
     href: "/solutions",
   },
   {
-    label: "Technology",
+    label: "Tech",
     href: "/technology",
   },
   {
@@ -26,5 +22,9 @@ export const navigation = [
   {
     label: "Contact",
     href: "/contact",
+  },
+  {
+    label: "About",
+    href: "/about",
   },
 ];

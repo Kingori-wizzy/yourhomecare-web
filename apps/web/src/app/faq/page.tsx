@@ -12,6 +12,8 @@ export const metadata = buildMetadata({
   path: "/faq",
 });
 
+export const dynamic = "force-dynamic";
+
 export default async function FAQPage() {
   const [content, faqs] = await Promise.all([getPageContent("faq"), getPublishedFaqs()]);
   const items = toFaqItems(faqs);

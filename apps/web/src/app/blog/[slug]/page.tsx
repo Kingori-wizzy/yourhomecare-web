@@ -7,16 +7,13 @@ import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { CallToAction } from "@/components/sections/home/cta";
 import { buildMetadata } from "@/lib/metadata";
-import { getBlogPostBySlug, getPublishedBlogPosts } from "@/server/cms";
+import { getBlogPostBySlug } from "@/server/cms";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateStaticParams() {
-  const posts = await getPublishedBlogPosts();
-  return posts.map((post) => ({ slug: post.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;

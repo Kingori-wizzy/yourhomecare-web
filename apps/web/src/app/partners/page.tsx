@@ -1,7 +1,6 @@
 import { PageHero } from "@/components/common/page-hero";
 import { Partners } from "@/components/sections/home/partners";
 import { CallToAction } from "@/components/sections/home/cta";
-import { partnersContent } from "@/content/partners";
 import { buildMetadata } from "@/lib/metadata";
 import { getPageContent, getPublishedPartners, toPartnerCategories } from "@/server/cms";
 
@@ -12,14 +11,15 @@ export const metadata = buildMetadata({
   path: "/partners",
 });
 
+export const dynamic = "force-dynamic";
+
 export default async function PartnersPage() {
   const [content, partners] = await Promise.all([
     getPageContent("partners"),
     getPublishedPartners(),
   ]);
 
-  const categories =
-    partners.length > 0 ? toPartnerCategories(partners) : partnersContent.categories;
+  const categories = toPartnerCategories(partners);
 
   return (
     <>

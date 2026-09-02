@@ -2,8 +2,9 @@ import { NextResponse } from "next/server";
 
 import { CareerApplicationSchema } from "@/lib/validations/careers";
 import { createEmailPayload, sendEmail } from "@/lib/email";
+import { publicDatabaseErrorResponse } from "@/lib/database-response";
 import { createRateLimitError, rateLimit, sanitizeInput } from "@/lib/security";
-import { careersService, notificationService } from "@/server/services";
+import { careersPublicService, notificationService } from "@/server/services";
 
 function getClientKey(request: Request) {
   return request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "anonymous";
@@ -35,7 +36,7 @@ export async function POST(request: Request) {
       message: sanitizeInput(data.message),
     };
 
-    await careersService.create({
+    await careersPublicService.create({
       fullName: payload.fullName,
       email: payload.email,
       phone: payload.phone,
@@ -65,13 +66,16 @@ export async function POST(request: Request) {
       message: "Application received successfully.",
       data: payload,
     });
-  } catch {
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Unable to process your application right now.",
-      },
-      { status: 500 }
+  } catch (error) {
+    return (
+      publicDatabaseErrorResponse(error) ??
+      NextResponse.json(
+        {
+          success: false,
+          message: "Unable to process your application right now.",
+        },
+        { status: 500 },
+      )
     );
   }
 }

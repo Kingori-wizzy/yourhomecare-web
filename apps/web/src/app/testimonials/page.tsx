@@ -1,22 +1,32 @@
-import { Star } from "lucide-react";
-
-import { PageHero } from "@/components/common/page-hero";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
+import { PageHero } from "@/components/common/page-hero";
+import { TestimonialCard } from "@/components/cards/testimonial-card";
 import { CallToAction } from "@/components/sections/home/cta";
+import { ReviewForm } from "@/components/reviews/review-form";
+import { ClientReviewsSection } from "@/components/reviews/client-reviews-section";
 import { buildMetadata } from "@/lib/metadata";
-import { getPageContent, getPublishedTestimonials, toTestimonialItems } from "@/server/cms";
+import {
+  getApprovedReviews,
+  getPageContent,
+  getPublishedTestimonials,
+  toReviewItems,
+  toTestimonialItems,
+} from "@/server/cms";
 
 export const metadata = buildMetadata({
-  title: "Testimonials",
-  description: "Read stories from patients, families and partners who trust YourHomeCare.",
+  title: "Reviews & Testimonials",
+  description: "Read client reviews and stories from patients, families and partners who trust YourHomeCare.",
   path: "/testimonials",
 });
 
+export const dynamic = "force-dynamic";
+
 export default async function TestimonialsPage() {
-  const [content, testimonials] = await Promise.all([
+  const [content, testimonials, reviewsResult] = await Promise.all([
     getPageContent("testimonials"),
     getPublishedTestimonials(),
+    getApprovedReviews({ page: 1, pageSize: 12 }),
   ]);
   const items = toTestimonialItems(testimonials);
 
@@ -36,30 +46,20 @@ export default async function TestimonialsPage() {
         <Container>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {items.map((testimonial, index) => (
-              <article
-                key={`${testimonial.name}-${index}`}
-                className="rounded-[8px] border border-border bg-[#f8f9ff] p-7 shadow-[var(--shadow-sm)] transition duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-md)]"
-              >
-                <div className="flex gap-1 text-secondary" aria-label="5 star rating">
-                  {Array.from({ length: 5 }).map((_, starIndex) => (
-                    <Star
-                      key={starIndex}
-                      className="h-4 w-4 fill-secondary text-secondary"
-                    />
-                  ))}
-                </div>
-
-                <p className="mt-5 text-base leading-[1.6] text-primary/90">
-                  “{testimonial.quote}”
-                </p>
-
-                <div className="mt-7 border-t border-border pt-5">
-                  <h3 className="font-bold text-primary">{testimonial.name}</h3>
-                  <p className="mt-1 text-sm text-muted-foreground">{testimonial.role}</p>
-                </div>
-              </article>
+              <TestimonialCard key={`${testimonial.name}-${index}`} testimonial={testimonial} />
             ))}
           </div>
+        </Container>
+      </Section>
+
+      <ClientReviewsSection
+        initialReviews={toReviewItems(reviewsResult.data)}
+        initialHasMore={reviewsResult.pagination.hasMore}
+      />
+
+      <Section id="submit-review" className="bg-white scroll-mt-24">
+        <Container>
+          <ReviewForm />
         </Container>
       </Section>
 

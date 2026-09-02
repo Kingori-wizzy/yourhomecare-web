@@ -11,6 +11,8 @@ export const metadata = buildMetadata({
   path: "/services",
 });
 
+export const dynamic = "force-dynamic";
+
 export default async function ServicesPage() {
   const [content, services] = await Promise.all([getPageContent("services"), getPublishedServices()]);
 

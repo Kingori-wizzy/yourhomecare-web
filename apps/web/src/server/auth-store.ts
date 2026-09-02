@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 
-import { getSupabaseClient } from "@/lib/supabase";
+import { getSupabaseServiceClient } from "@/lib/supabase";
+import { isProductionRuntime } from "@/server/db-errors";
 import { db } from "@/server/db";
 import { auditLogs, users } from "@/server/schema";
 import { eq } from "drizzle-orm";
@@ -24,6 +25,7 @@ const memoryUsers = new Map<string, AuthUserRecord>();
 const memoryAudit: Array<Record<string, unknown>> = [];
 
 function seedBootstrapAdmin() {
+  if (isProductionRuntime()) return;
   if (memoryUsers.size > 0) return;
   const email = (process.env.ADMIN_EMAIL ?? "admin@yourhomecare.co.ke").toLowerCase();
   memoryUsers.set(email, {
@@ -67,7 +69,7 @@ export async function findUserByEmail(email: string): Promise<AuthUserRecord | n
     }
   }
 
-  const supabase = getSupabaseClient();
+  const supabase = getSupabaseServiceClient();
   if (supabase) {
     const { data, error } = await supabase.from("users").select("*").eq("email", normalized).maybeSingle();
     if (!error && data) {
@@ -116,7 +118,7 @@ export async function findUserByResetToken(token: string): Promise<AuthUserRecor
     }
   }
 
-  const supabase = getSupabaseClient();
+  const supabase = getSupabaseServiceClient();
   if (supabase) {
     const { data, error } = await supabase.from("users").select("*").eq("reset_token", token).maybeSingle();
     if (!error && data) {
@@ -180,7 +182,7 @@ export async function updateUserAuthState(
     }
   }
 
-  const supabase = getSupabaseClient();
+  const supabase = getSupabaseServiceClient();
   if (supabase) {
     await supabase
       .from("users")
@@ -242,7 +244,7 @@ export async function createAuditLog(input: {
     }
   }
 
-  const supabase = getSupabaseClient();
+  const supabase = getSupabaseServiceClient();
   if (supabase) {
     await supabase.from("audit_logs").insert({
       user_id: entry.userId,

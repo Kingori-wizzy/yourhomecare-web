@@ -16,6 +16,7 @@ import {
   jobService,
   mediaService,
 } from "@/server/services";
+import { isProductionRuntime } from "@/server/db-errors";
 import {
   buildBlogSeedRecords,
   buildFaqSeedRecords,
@@ -38,6 +39,10 @@ let seedingPromise: Promise<void> | null = null;
  * Safe to call repeatedly - each table is only seeded when it is empty.
  */
 export async function ensureCmsSeeded(): Promise<void> {
+  if (isProductionRuntime()) {
+    return;
+  }
+
   if (seeded) return;
 
   if (!seedingPromise) {

@@ -8,10 +8,12 @@ import { buildMetadata } from "@/lib/metadata";
 import { getPageContent } from "@/server/cms";
 
 export const metadata = buildMetadata({
-  title: "Technology",
+  title: "Tech",
   description: "Discover TaskEase, our digital care coordination platform powering secure, connected home healthcare.",
   path: "/technology",
 });
+
+export const dynamic = "force-dynamic";
 
 export default async function TechnologyPage() {
   const content = await getPageContent("technology");

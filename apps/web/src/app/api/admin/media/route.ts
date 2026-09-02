@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { canAccessModule, canWrite, getServerSession } from "@/lib/auth";
 import { cloudinary } from "@/lib/cloudinary";
+import { databaseErrorResponse } from "@/lib/database-response";
 import { env } from "@/lib/env";
 import { createAuditLog } from "@/server/auth-store";
 import { mediaService } from "@/server/services";
@@ -21,6 +22,7 @@ async function authorize(write: boolean) {
 }
 
 export async function GET(request: Request) {
+  try {
   const auth = await authorize(false);
   if (auth.error) return auth.error;
 
@@ -46,9 +48,13 @@ export async function GET(request: Request) {
     data,
     pagination: { page, pageSize, total, totalPages: Math.ceil(total / pageSize) },
   });
+  } catch (error) {
+    return databaseErrorResponse(error) ?? NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
 }
 
 export async function POST(request: Request) {
+  try {
   const auth = await authorize(true);
   if (auth.error) return auth.error;
 
@@ -71,52 +77,52 @@ export async function POST(request: Request) {
   const arrayBuffer = await file.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
 
-  try {
-    const uploadResult = await new Promise<{
-      secure_url: string;
-      public_id: string;
-      resource_type: string;
-      bytes: number;
-      format?: string;
-    }>((resolve, reject) => {
-      cloudinary.uploader
-        .upload_stream({ folder }, (error, result) => {
-          if (error || !result) {
-            reject(error ?? new Error("Upload failed"));
-            return;
-          }
-          resolve(result as typeof result & { secure_url: string; public_id: string; resource_type: string; bytes: number });
-        })
-        .end(buffer);
-    });
+  const uploadResult = await new Promise<{
+    secure_url: string;
+    public_id: string;
+    resource_type: string;
+    bytes: number;
+    format?: string;
+  }>((resolve, reject) => {
+    cloudinary.uploader
+      .upload_stream({ folder }, (error, result) => {
+        if (error || !result) {
+          reject(error ?? new Error("Upload failed"));
+          return;
+        }
+        resolve(result as typeof result & { secure_url: string; public_id: string; resource_type: string; bytes: number });
+      })
+      .end(buffer);
+  });
 
-    const record = await mediaService.create({
-      name: file.name,
-      url: uploadResult.secure_url,
-      publicId: uploadResult.public_id,
-      resourceType: uploadResult.resource_type,
-      mimeType: file.type,
-      size: uploadResult.bytes ?? file.size,
-      folder,
-      alt,
-      tags: [],
-    });
+  const record = await mediaService.create({
+    name: file.name,
+    url: uploadResult.secure_url,
+    publicId: uploadResult.public_id,
+    resourceType: uploadResult.resource_type,
+    mimeType: file.type,
+    size: uploadResult.bytes ?? file.size,
+    folder,
+    alt,
+    tags: [],
+  });
 
-    await createAuditLog({
-      action: "create",
-      userId: auth.session?.user?.id,
-      userEmail: auth.session?.user?.email ?? undefined,
-      resource: "media",
-      resourceId: record.id,
-    });
+  await createAuditLog({
+    action: "create",
+    userId: auth.session?.user?.id,
+    userEmail: auth.session?.user?.email ?? undefined,
+    resource: "media",
+    resourceId: record.id,
+  });
 
-    return NextResponse.json(record, { status: 201 });
-  } catch {
-    return NextResponse.json({ error: "Upload failed" }, { status: 500 });
+  return NextResponse.json(record, { status: 201 });
+  } catch (error) {
+    return databaseErrorResponse(error) ?? NextResponse.json({ error: "Upload failed" }, { status: 500 });
   }
 }
 
 export async function PATCH(request: Request) {
+  try {
   const auth = await authorize(true);
   if (auth.error) return auth.error;
 
@@ -142,9 +148,13 @@ export async function PATCH(request: Request) {
   });
 
   return NextResponse.json(updated);
+  } catch (error) {
+    return databaseErrorResponse(error) ?? NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
 }
 
 export async function DELETE(request: Request) {
+  try {
   const auth = await authorize(true);
   if (auth.error) return auth.error;
 
@@ -177,4 +187,7 @@ export async function DELETE(request: Request) {
   });
 
   return NextResponse.json({ success: true });
+  } catch (error) {
+    return databaseErrorResponse(error) ?? NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
 }

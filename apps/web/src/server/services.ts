@@ -1,5 +1,9 @@
-import { createCrudRepository, type BaseRecord } from "@/server/repositories";
-import { listMemoryAuditLogs, listMemoryUsers } from "@/server/auth-store";
+import { createAdminPublicPair, createCrudRepository, type BaseRecord } from "@/server/repositories";
+import {
+  CMS_ADMIN_REPOSITORY_OPTIONS,
+  PORTAL_REPOSITORY_OPTIONS,
+} from "@/server/cms-persistence";
+import { listMemoryUsers } from "@/server/auth-store";
 
 export interface PatientRecord extends BaseRecord {
   fullName: string;
@@ -171,6 +175,26 @@ export interface MediaRecord extends BaseRecord {
   tags?: string[];
 }
 
+export interface TeamMemberRecord extends BaseRecord {
+  fullName: string;
+  title: string;
+  rank?: string;
+  biography?: string;
+  department?: string;
+  photoUrl?: string;
+  displayOrder?: number;
+  isActive: boolean;
+}
+
+export interface ClientReviewRecord extends BaseRecord {
+  name: string;
+  email?: string;
+  rating: number;
+  comment: string;
+  status: "pending" | "approved" | "rejected";
+  ipHash?: string;
+}
+
 export interface NotificationRecord extends BaseRecord {
   title: string;
   message: string;
@@ -215,121 +239,116 @@ export interface AnalyticsSummary {
   partners: number;
   testimonials: number;
   media: number;
+  team: number;
+  reviews: number;
+}
+
+export interface AuditLogRecord extends BaseRecord {
+  userId?: string | null;
+  userEmail?: string | null;
+  action: string;
+  resource?: string | null;
+  resourceId?: string | null;
+  details?: Record<string, unknown> | null;
+  ipAddress?: string | null;
 }
 
 const now = new Date().toISOString();
 
-export const patientService = createCrudRepository<PatientRecord>(
-  [
-    {
-      id: "patient-1",
-      fullName: "Amina Wanjiku",
-      email: "amina@example.com",
-      phone: "+254-700-111-222",
-      address: "Nairobi, Kenya",
-      carePlan: "Daily visits and medication reminders",
-      notes: "Prefers evening visits",
-      status: "active",
-      createdAt: now,
-      updatedAt: now,
-    },
-  ],
-  { tableName: "patients" }
-);
+export const patientService = createCrudRepository<PatientRecord>([], {
+  tableName: "patients",
+  ...PORTAL_REPOSITORY_OPTIONS,
+});
 
-export const appointmentService = createCrudRepository<AppointmentRecord>(
-  [
-    {
-      id: "appointment-1",
-      patientId: "patient-1",
-      title: "Initial assessment",
-      scheduledAt: now,
-      status: "scheduled",
-      notes: "Requires caregiver support",
-      createdAt: now,
-      updatedAt: now,
-    },
-  ],
-  { tableName: "appointments" }
-);
+export const appointmentService = createCrudRepository<AppointmentRecord>([], {
+  tableName: "appointments",
+  ...PORTAL_REPOSITORY_OPTIONS,
+});
 
 export const assessmentService = createCrudRepository<AssessmentRecord>([], {
   tableName: "assessments",
+  ...PORTAL_REPOSITORY_OPTIONS,
 });
 
-export const referralService = createCrudRepository<ReferralRecord>(
-  [
-    {
-      id: "referral-1",
-      organization: "Nairobi Hospital",
-      contactName: "Dr. Mercy Otieno",
-      email: "mercy@nairobihospital.org",
-      phone: "+254-700-333-444",
-      notes: "Requests home-based full recovery plan",
-      status: "new",
-      createdAt: now,
-      updatedAt: now,
-    },
-  ],
-  { tableName: "referrals" }
-);
+export const referralService = createCrudRepository<ReferralRecord>([], {
+  tableName: "referrals",
+  ...PORTAL_REPOSITORY_OPTIONS,
+});
 
 export const contactService = createCrudRepository<ContactRecord>([], {
   tableName: "contacts",
+  ...PORTAL_REPOSITORY_OPTIONS,
 });
 
-export const jobService = createCrudRepository<JobListingRecord>([], {
-  tableName: "job_listings",
-});
+const jobListings = createAdminPublicPair<JobListingRecord>("job_listings");
+export const jobService = jobListings.admin;
+export const jobPublicService = jobListings.public;
 
-export const careersService = createCrudRepository<CareerRecord>([], {
-  tableName: "careers",
-});
+const careers = createAdminPublicPair<CareerRecord>("careers");
+export const careersService = careers.admin;
+export const careersPublicService = careers.public;
 
-export const newsletterService = createCrudRepository<NewsletterRecord>([], {
-  tableName: "newsletters",
-});
+const newsletters = createAdminPublicPair<NewsletterRecord>("newsletters");
+export const newsletterService = newsletters.admin;
+export const newsletterPublicService = newsletters.public;
 
-export const blogPostService = createCrudRepository<BlogPostRecord>([], {
-  tableName: "blog_posts",
-});
+const blogPosts = createAdminPublicPair<BlogPostRecord>("blog_posts");
+export const blogPostService = blogPosts.admin;
+export const blogPostPublicService = blogPosts.public;
 
-export const partnerService = createCrudRepository<PartnerRecord>([], {
-  tableName: "partners",
-});
+const partners = createAdminPublicPair<PartnerRecord>("partners");
+export const partnerService = partners.admin;
+export const partnerPublicService = partners.public;
 
-export const testimonialService = createCrudRepository<TestimonialRecord>([], {
-  tableName: "testimonials",
-});
+const testimonials = createAdminPublicPair<TestimonialRecord>("testimonials");
+export const testimonialService = testimonials.admin;
+export const testimonialPublicService = testimonials.public;
 
-export const serviceService = createCrudRepository<ServiceRecord>([], {
-  tableName: "services",
-});
+const services = createAdminPublicPair<ServiceRecord>("services");
+export const serviceService = services.admin;
+export const servicePublicService = services.public;
 
-export const solutionService = createCrudRepository<SolutionRecord>([], {
-  tableName: "solutions",
-});
+const solutions = createAdminPublicPair<SolutionRecord>("solutions");
+export const solutionService = solutions.admin;
+export const solutionPublicService = solutions.public;
 
-export const faqService = createCrudRepository<FaqRecord>([], {
-  tableName: "faq_items",
+const faqs = createAdminPublicPair<FaqRecord>("faq_items");
+export const faqService = faqs.admin;
+export const faqPublicService = faqs.public;
+
+const teamMembers = createAdminPublicPair<TeamMemberRecord>("team_members");
+export const teamService = teamMembers.admin;
+export const teamPublicService = teamMembers.public;
+
+export const reviewService = createCrudRepository<ClientReviewRecord>([], {
+  tableName: "client_reviews",
+  ...CMS_ADMIN_REPOSITORY_OPTIONS,
 });
 
 export const mediaService = createCrudRepository<MediaRecord>([], {
   tableName: "media_assets",
+  ...CMS_ADMIN_REPOSITORY_OPTIONS,
 });
 
 export const notificationService = createCrudRepository<NotificationRecord>([], {
   tableName: "notifications",
+  ...CMS_ADMIN_REPOSITORY_OPTIONS,
 });
 
-export const pageContentService = createCrudRepository<PageContentRecord>([], {
-  tableName: "page_contents",
+const pageContents = createAdminPublicPair<PageContentRecord>("page_contents");
+export const pageContentService = pageContents.admin;
+export const pageContentPublicService = pageContents.public;
+
+const siteSettings = createAdminPublicPair<SettingRecord>("site_settings");
+export const settingsService = siteSettings.admin;
+export const settingsPublicService = siteSettings.public;
+
+export const auditLogService = createCrudRepository<AuditLogRecord>([], {
+  tableName: "audit_logs",
+  ...CMS_ADMIN_REPOSITORY_OPTIONS,
 });
 
-export const settingsService = createCrudRepository<SettingRecord>([], {
-  tableName: "site_settings",
-});
-
+/** Portal user UI — real authentication uses Drizzle via auth-store.ts. */
 export const userService = {
   list: async () => {
     const memory = listMemoryUsers().map((u) => ({
@@ -387,14 +406,6 @@ export const userService = {
   },
 };
 
-export const auditLogService = {
-  list: async () => listMemoryAuditLogs(),
-  get: async (id: string) => listMemoryAuditLogs().find((l) => l.id === id),
-  create: async () => null,
-  update: async () => null,
-  remove: async () => false,
-};
-
 export async function getDashboardMetrics(): Promise<AnalyticsSummary> {
   return {
     patients: (await patientService.list()).length,
@@ -407,8 +418,10 @@ export async function getDashboardMetrics(): Promise<AnalyticsSummary> {
     newsletters: (await newsletterService.list()).length,
     blogPosts: (await blogPostService.list()).length,
     partners: (await partnerService.list()).length,
-    testimonials: (await testimonialService.list()).length,
-    media: (await mediaService.list()).length,
+  testimonials: (await testimonialService.list()).length,
+  media: (await mediaService.list()).length,
+  team: (await teamService.list()).length,
+  reviews: (await reviewService.list()).length,
   };
 }
 
@@ -427,6 +440,8 @@ export const adminServiceRegistry = {
   services: serviceService,
   solutions: solutionService,
   faq: faqService,
+  team: teamService,
+  reviews: reviewService,
   media: mediaService,
   notifications: notificationService,
   pages: pageContentService,
